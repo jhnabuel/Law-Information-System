@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1182</width>
+    <height>728</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/*Set style for app title widget */
+#titleWidget{
+	background-color: #1d3656;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	box-shadow:  20px 20px 60px #309980,
+             -20px -20px 60px #42cfae;
+}
+
+#titleWidget QLabel{
+	color: rgba(255,255,255,0.8);
+	
+}
+
+#titleLabel1{
+	font-size: 45px;
+}
+
+#titleLabel2{
+	font-size: 45px;
+}
+
+#titleLabel3{
+	font-size: 45px;
+}
+
+/*Set style for function widget*/
+
+#loginWidget{
+	background-color: 	#f6f6f6;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius:10px;
+	
+}
+
+#loginLabel{
+	font-size: 45px;
+}
+
+#noteLabel{
+	font-size: 18px;
+}
+
+#userLabel{
+	font-size:18px;
+}
+
+#passLabel{
+	font-size: 18px;
+}
+
+#exitButton{
+	color:white;
+	background: rgb(217, 0, 0);
+	border-radius: 1em;
+}
+#exitButton:hover{
+	color:white;
+	background: rgb(255, 92, 92);
+	border-radius: 1em;
+}
+
+#loginButton{
+ color: white;
+  padding: 0.7em 1.7em;
+  font-size: 18px;
+  border-radius: 0.5em;
+  background: #1d3656;
+  cursor: pointer;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s;
+  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+}
+
+#loginButton:hover {
+  background-color: #3aad00;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+
+
+
+#titleFrame{
+	border: 5px solid #cba535;
+	border-radius: 10px;
+}
+
+
+
+
+
+
+
+
+
+</string>
+  </property>
+  <widget class="QWidget" name="titleWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>70</y>
+     <width>500</width>
+     <height>591</height>
+    </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>500</width>
+     <height>600</height>
+    </size>
+   </property>
+   <widget class="QFrame" name="titleFrame">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>120</y>
+      <width>421</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>401</width>
+       <height>239</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetNoConstraint</enum>
+      </property>
+      <item>
+       <widget class="QLabel" name="titleLabel1">
+        <property name="font">
+         <font>
+          <family>Poppins Medium</family>
+          <pointsize>-1</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string> Law Firm</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="titleLabel2">
+        <property name="font">
+         <font>
+          <family>Poppins Medium</family>
+          <pointsize>-1</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Management</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="titleLabel3">
+        <property name="font">
+         <font>
+          <family>Poppins Medium</family>
+          <pointsize>-1</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>System</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="loginWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>70</y>
+     <width>500</width>
+     <height>591</height>
+    </rect>
+   </property>
+   <widget class="QWidget" name="verticalLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>80</y>
+      <width>294</width>
+      <height>117</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <property name="spacing">
+      <number>5</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="loginLabel">
+       <property name="font">
+        <font>
+         <family>Poppins Medium</family>
+         <pointsize>-1</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Login</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="noteLabel">
+       <property name="font">
+        <font>
+         <family>Poppins</family>
+         <pointsize>-1</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Please sign in to continue.</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="exitButton">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>20</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Poppins</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Exit</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>220</y>
+      <width>361</width>
+      <height>85</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="userLabel">
+       <property name="font">
+        <font>
+         <family>Poppins</family>
+         <pointsize>-1</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>Admin Username:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="userInput">
+       <property name="styleSheet">
+        <string notr="true">#userInput{
+                    box-sizing: border-box;
+                   
+                    font-size: 16px;
+                    vertical-align: baseline;
+                    font-weight: 400;
+                    line-height: 1.29;
+                    letter-spacing: .16px;
+                    border-radius: 0;
+                    outline: 2px solid transparent;
+                    outline-offset: -2px;
+                    width: 100%;
+                    height: 40px;
+                    border: none;
+                    border-bottom: 1px solid #8d8d8d;
+                    background-color: #f4f4f4;
+                    padding: 0 16px;
+                    color: #161616;
+}
+ #userInput:focus{
+						border: 2px solid black;
+                    }
+                </string>
+       </property>
+       <property name="placeholderText">
+        <string>Enter your username.</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>310</y>
+      <width>361</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="passLabel">
+       <property name="font">
+        <font>
+         <family>Poppins</family>
+         <pointsize>-1</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Password:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="passInput">
+       <property name="styleSheet">
+        <string notr="true">#passInput{
+                    box-sizing: border-box;
+                   
+                    font-size: 16px;
+                    vertical-align: baseline;
+                    font-weight: 400;
+                    line-height: 1.29;
+                    letter-spacing: .16px;
+                    border-radius: 0;
+                    outline: 2px solid transparent;
+                    outline-offset: -2px;
+                    width: 100%;
+                    height: 40px;
+                    border: none;
+                    border-bottom: 1px solid #8d8d8d;
+                    background-color: #f4f4f4;
+                    padding: 0 16px;
+                    color: #161616;
+}
+ #passInput:focus{
+						border: 2px solid black;
+                    }
+                
+
+</string>
+       </property>
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+       <property name="placeholderText">
+        <string>Enter your password.</string>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="loginButton">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>430</y>
+      <width>231</width>
+      <height>63</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Poppins</family>
+      <pointsize>-1</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Login</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

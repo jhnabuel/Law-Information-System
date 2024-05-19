@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="icon">
+    <file>clientdark.svg</file>
+    <file>exit.svg</file>
+    <file>exitdark.svg</file>
+    <file>casedark.svg</file>
+    <file>case.svg</file>
+    <file>client.svg</file>
+    <file>lawyer.svg</file>
+    <file>lawyerdark.svg</file>
+  </qresource>
+</RCC>
