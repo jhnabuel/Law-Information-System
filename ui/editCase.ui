@@ -271,12 +271,27 @@ QPushButton:hover{
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QDateEdit" name="endDate_edit">
-          <property name="font">
-           <font>
-            <family>Poppins</family>
-           </font>
+        <item alignment="Qt::AlignLeft">
+         <widget class="QLineEdit" name="endDate">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>135</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#endDate{
+	width: 50px;
+}</string>
+          </property>
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
