@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_editClient(object):
     def setupUi(self, editClient):
         editClient.setObjectName("editClient")
-        editClient.resize(460, 470)
+        editClient.resize(460, 471)
         editClient.setStyleSheet("QDialog{\n"
 "background-color: white;\n"
 "}\n"

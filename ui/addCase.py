@@ -11,11 +11,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(460, 470)
-        Dialog.setStyleSheet("QDialog{\n"
+class Ui_addCase(object):
+    def setupUi(self, addCase):
+        addCase.setObjectName("addCase")
+        addCase.resize(460, 470)
+        addCase.setStyleSheet("QDialog{\n"
 "background-color: white;\n"
 "}\n"
 "\n"
@@ -51,7 +51,7 @@ class Ui_Dialog(object):
 "    background-color: #1d3453;\n"
 "color: white;\n"
 "}")
-        self.add_case_cancel = QtWidgets.QPushButton(Dialog)
+        self.add_case_cancel = QtWidgets.QPushButton(addCase)
         self.add_case_cancel.setGeometry(QtCore.QRect(270, 410, 110, 40))
         font = QtGui.QFont()
         font.setFamily("Poppins")
@@ -72,7 +72,7 @@ class Ui_Dialog(object):
 "    background-color: rgb(53, 96, 153)\n"
 "}")
         self.add_case_cancel.setObjectName("add_case_cancel")
-        self.titleWidget = QtWidgets.QWidget(Dialog)
+        self.titleWidget = QtWidgets.QWidget(addCase)
         self.titleWidget.setGeometry(QtCore.QRect(0, 0, 461, 61))
         self.titleWidget.setObjectName("titleWidget")
         self.title = QtWidgets.QLabel(self.titleWidget)
@@ -85,7 +85,7 @@ class Ui_Dialog(object):
         self.title.setFont(font)
         self.title.setAlignment(QtCore.Qt.AlignCenter)
         self.title.setObjectName("title")
-        self.add_case_info = QtWidgets.QPushButton(Dialog)
+        self.add_case_info = QtWidgets.QPushButton(addCase)
         self.add_case_info.setGeometry(QtCore.QRect(70, 410, 110, 41))
         font = QtGui.QFont()
         font.setFamily("Poppins")
@@ -106,7 +106,7 @@ class Ui_Dialog(object):
 "    background-color: rgb(0, 170, 0);\n"
 "}")
         self.add_case_info.setObjectName("add_case_info")
-        self.layoutWidget = QtWidgets.QWidget(Dialog)
+        self.layoutWidget = QtWidgets.QWidget(addCase)
         self.layoutWidget.setGeometry(QtCore.QRect(10, 70, 440, 331))
         self.layoutWidget.setObjectName("layoutWidget")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.layoutWidget)
@@ -225,37 +225,37 @@ class Ui_Dialog(object):
         self.verticalLayout_3.addWidget(self.caseStatus)
         self.verticalLayout_7.addLayout(self.verticalLayout_3)
 
-        self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.retranslateUi(addCase)
+        QtCore.QMetaObject.connectSlotsByName(addCase)
 
-    def retranslateUi(self, Dialog):
+    def retranslateUi(self, addCase):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.add_case_cancel.setText(_translate("Dialog", "Cancel"))
-        self.title.setText(_translate("Dialog", "Add New Case"))
-        self.add_case_info.setText(_translate("Dialog", " Add Case"))
-        self.label_2.setText(_translate("Dialog", "Case ID"))
-        self.label_3.setText(_translate("Dialog", "Case Name"))
-        self.label_5.setText(_translate("Dialog", "Case Type"))
-        self.caseType.setItemText(0, _translate("Dialog", "Civil"))
-        self.caseType.setItemText(1, _translate("Dialog", "Criminal"))
-        self.caseType.setItemText(2, _translate("Dialog", "Appeal"))
-        self.caseType.setItemText(3, _translate("Dialog", "Class Action"))
-        self.caseType.setItemText(4, _translate("Dialog", "Bankruptcy"))
-        self.label_6.setText(_translate("Dialog", "Start Date"))
-        self.label_7.setText(_translate("Dialog", "End Date"))
-        self.label_4.setText(_translate("Dialog", "Status"))
-        self.caseStatus.setItemText(0, _translate("Dialog", "Pending"))
-        self.caseStatus.setItemText(1, _translate("Dialog", "Ongoing"))
-        self.caseStatus.setItemText(2, _translate("Dialog", "Closed"))
-        self.caseStatus.setItemText(3, _translate("Dialog", "Open"))
+        addCase.setWindowTitle(_translate("addCase", "Dialog"))
+        self.add_case_cancel.setText(_translate("addCase", "Cancel"))
+        self.title.setText(_translate("addCase", "Add New Case"))
+        self.add_case_info.setText(_translate("addCase", " Add Case"))
+        self.label_2.setText(_translate("addCase", "Case ID"))
+        self.label_3.setText(_translate("addCase", "Case Name"))
+        self.label_5.setText(_translate("addCase", "Case Type"))
+        self.caseType.setItemText(0, _translate("addCase", "Civil"))
+        self.caseType.setItemText(1, _translate("addCase", "Criminal"))
+        self.caseType.setItemText(2, _translate("addCase", "Appeal"))
+        self.caseType.setItemText(3, _translate("addCase", "Class Action"))
+        self.caseType.setItemText(4, _translate("addCase", "Bankruptcy"))
+        self.label_6.setText(_translate("addCase", "Start Date"))
+        self.label_7.setText(_translate("addCase", "End Date"))
+        self.label_4.setText(_translate("addCase", "Status"))
+        self.caseStatus.setItemText(0, _translate("addCase", "Pending"))
+        self.caseStatus.setItemText(1, _translate("addCase", "Ongoing"))
+        self.caseStatus.setItemText(2, _translate("addCase", "Closed"))
+        self.caseStatus.setItemText(3, _translate("addCase", "Open"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
+    addCase = QtWidgets.QDialog()
+    ui = Ui_addCase()
+    ui.setupUi(addCase)
+    addCase.show()
     sys.exit(app.exec_())
