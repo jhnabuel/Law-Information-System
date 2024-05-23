@@ -11,11 +11,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(345, 420)
-        Dialog.setStyleSheet("QDialog{\n"
+class Ui_editLawyerCase(object):
+    def setupUi(self, editLawyerCase):
+        editLawyerCase.setObjectName("editLawyerCase")
+        editLawyerCase.resize(345, 420)
+        editLawyerCase.setStyleSheet("QDialog{\n"
 "background-color: white;\n"
 "}\n"
 "\n"
@@ -51,7 +51,7 @@ class Ui_Dialog(object):
 "    background-color: #1d3453;\n"
 "color: white;\n"
 "}")
-        self.layoutWidget = QtWidgets.QWidget(Dialog)
+        self.layoutWidget = QtWidgets.QWidget(editLawyerCase)
         self.layoutWidget.setGeometry(QtCore.QRect(20, 80, 301, 242))
         self.layoutWidget.setObjectName("layoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.layoutWidget)
@@ -106,7 +106,7 @@ class Ui_Dialog(object):
         self.verticalLayout_5.addWidget(self.edit_lawyer_start_date)
         self.verticalLayout_4.addLayout(self.verticalLayout_5)
         self.verticalLayout.addLayout(self.verticalLayout_4)
-        self.titleWidget = QtWidgets.QWidget(Dialog)
+        self.titleWidget = QtWidgets.QWidget(editLawyerCase)
         self.titleWidget.setGeometry(QtCore.QRect(0, 0, 361, 61))
         self.titleWidget.setObjectName("titleWidget")
         self.title_2 = QtWidgets.QLabel(self.titleWidget)
@@ -119,7 +119,7 @@ class Ui_Dialog(object):
         self.title_2.setFont(font)
         self.title_2.setAlignment(QtCore.Qt.AlignCenter)
         self.title_2.setObjectName("title_2")
-        self.edit_info = QtWidgets.QPushButton(Dialog)
+        self.edit_info = QtWidgets.QPushButton(editLawyerCase)
         self.edit_info.setGeometry(QtCore.QRect(30, 350, 141, 41))
         font = QtGui.QFont()
         font.setFamily("Poppins")
@@ -140,7 +140,7 @@ class Ui_Dialog(object):
 "    background-color: rgb(0, 170, 0);\n"
 "}")
         self.edit_info.setObjectName("edit_info")
-        self.edit_info_cancel = QtWidgets.QPushButton(Dialog)
+        self.edit_info_cancel = QtWidgets.QPushButton(editLawyerCase)
         self.edit_info_cancel.setGeometry(QtCore.QRect(190, 350, 121, 40))
         font = QtGui.QFont()
         font.setFamily("Poppins")
@@ -162,25 +162,25 @@ class Ui_Dialog(object):
 "}")
         self.edit_info_cancel.setObjectName("edit_info_cancel")
 
-        self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.retranslateUi(editLawyerCase)
+        QtCore.QMetaObject.connectSlotsByName(editLawyerCase)
 
-    def retranslateUi(self, Dialog):
+    def retranslateUi(self, editLawyerCase):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.label_4.setText(_translate("Dialog", "Assigned Lawyer"))
-        self.label_5.setText(_translate("Dialog", "Case Name"))
-        self.label_6.setText(_translate("Dialog", "Start Date"))
-        self.title_2.setText(_translate("Dialog", "Edit Lawyer Case"))
-        self.edit_info.setText(_translate("Dialog", "Edit Information"))
-        self.edit_info_cancel.setText(_translate("Dialog", "Cancel"))
+        editLawyerCase.setWindowTitle(_translate("editLawyerCase", "Dialog"))
+        self.label_4.setText(_translate("editLawyerCase", "Assigned Lawyer"))
+        self.label_5.setText(_translate("editLawyerCase", "Case Name"))
+        self.label_6.setText(_translate("editLawyerCase", "Start Date"))
+        self.title_2.setText(_translate("editLawyerCase", "Edit Lawyer Case"))
+        self.edit_info.setText(_translate("editLawyerCase", "Edit Information"))
+        self.edit_info_cancel.setText(_translate("editLawyerCase", "Cancel"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
+    editLawyerCase = QtWidgets.QDialog()
+    ui = Ui_editLawyerCase()
+    ui.setupUi(editLawyerCase)
+    editLawyerCase.show()
     sys.exit(app.exec_())
