@@ -123,3 +123,112 @@ class ConnectDatabase:
             # Ensure the database connection is closed
             self.connect.close()
 
+
+# case
+    def case_id_exists(self, case_id):
+        # Checks whether ID exists in the database
+        self.connect_database()
+        query = "SELECT * FROM case_table WHERE case_id = %s"
+        self.cursor.execute(query, (case_id,))
+        result = self.cursor.fetchone()
+        self.cursor.close()
+        return result is not None
+    
+
+    def add_case_info(self, case_id, case_name, case_type, start_date, end_date, case_status):
+        try:
+            # Connect to database
+            self.connect_database()
+            # Prepare the SQL query with placeholders
+            query = """INSERT INTO case_table (case_id, case_name, case_type, start_date, end_date, case_status) 
+                       VALUES (%s, %s, %s, %s, %s, %s);"""
+            # Execute the SQL query with the provided parameters
+            self.cursor.execute(query, (case_id, case_name, case_type, start_date, end_date, case_status))
+            # Commit the transaction to save the changes
+            self.connect.commit()
+            return None  # Return None to indicate success
+        except Exception as e:
+            # Rollback the transaction and return the error message
+            self.connect.rollback()
+            return str(e)
+        finally:
+            # Close the database connection
+            self.connect.close()
+
+
+    def delete_case_info(self, case_id):
+        self.connect_database()
+        # Construct SQL query for deleting case info
+        sql = "DELETE FROM case_table WHERE case_id = %s;"
+        try:
+            # Execute the SQL query for deleting case info
+            self.cursor.execute(sql, (case_id,))
+            self.connect.commit()
+        except Exception as E:
+            # Rollback the operation in a case of an error
+            self.connect.rollback()
+            return E
+        finally:
+            # Close the database connection
+            self.connect.close()
+
+
+    def edit_case_info(self, case_id, case_name, case_type, start_date, end_date, case_status):
+        try:
+            self.connect_database()
+            # Prepare the SQL query with placeholders
+            query = f"""UPDATE case_table
+                SET case_name = %s, case_type = %s, start_date = %s, end_date = %s, case_status = %s 
+                       WHERE case_id = %s;"""
+            # Execute the SQL query with the provided parameters
+            self.cursor.execute(query, (case_name, case_type, start_date, end_date, case_status, case_id))
+            # Commit the transaction to save the changes
+            self.connect.commit()
+            return None  # Return None to indicate success
+        except Exception as e:
+            # Rollback the transaction and return the error message
+            self.connect.rollback()
+            return str(e)
+        finally:
+            # Close the database connection
+            self.connect.close()
+
+
+    def search_case_info(self, search_value=None):
+        try:
+            # Define the columns to search in the "case" table
+            columns = ["case_id", "case_name", "case_type", "case_status"]
+
+            if search_value:
+                # Create the search condition by joining each column with an
+                # OR condition and using placeholders for the parameters
+                condition = "case_id LIKE %s OR case_name LIKE %s OR case_type LIKE %s OR case_status LIKE %s"
+                # Form the SQL query to select all rows from the "case" table
+            else:
+                condition = None
+
+            if condition:
+                sql = f"""
+                               SELECT * FROM case_table WHERE {condition};    
+                           """
+                self.cursor.execute(sql, (f"%{search_value}%", f"%{search_value}%", f"%{search_value}%",
+                                          f"%{search_value}%"))      # Correct parameter passing
+
+            else:
+                # If no search value is provided, select all rows from the "lawyer" table and order by lawyerID
+                sql = "SELECT * FROM case_table ORDER BY case_id ASC;"
+                # Execute the query without parameters
+                self.cursor.execute(sql)
+
+            # Fetch all the rows resulting from the query
+            rows = self.cursor.fetchall()
+            # Return the fetched rows
+            return rows
+
+        except Exception as E:
+            # Print any exception that occurs
+            print(str(E))
+
+        finally:
+            # Ensure the database connection is closed
+            self.connect.close()
