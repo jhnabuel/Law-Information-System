@@ -1455,7 +1455,7 @@ QPushButton:hover{
         <number>20</number>
        </property>
        <item>
-        <widget class="QPushButton" name="add_clientcase_btn_2">
+        <widget class="QPushButton" name="add_lawyercase_btn">
          <property name="font">
           <font>
            <family>Poppins</family>
@@ -1486,7 +1486,7 @@ QPushButton:hover{
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="search_client_case_2">
+        <widget class="QLineEdit" name="search_lawyer_case">
          <property name="font">
           <font>
            <family>Poppins</family>
@@ -1511,7 +1511,7 @@ QPushButton:hover{
        </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="client_case_delete_2">
+     <widget class="QPushButton" name="delete_lawyer_case">
       <property name="geometry">
        <rect>
         <x>530</x>
@@ -1548,7 +1548,7 @@ QPushButton:hover{
        <string>Delete Lawyer Case</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="client_case_edit_2">
+     <widget class="QPushButton" name="edit_lawyer_case">
       <property name="geometry">
        <rect>
         <x>700</x>

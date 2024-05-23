@@ -864,14 +864,14 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_5.setSpacing(20)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.add_clientcase_btn_2 = QtWidgets.QPushButton(self.horizontalLayoutWidget_5)
+        self.add_lawyercase_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_5)
         font = QtGui.QFont()
         font.setFamily("Poppins")
         font.setPointSize(-1)
         font.setBold(True)
         font.setWeight(75)
-        self.add_clientcase_btn_2.setFont(font)
-        self.add_clientcase_btn_2.setStyleSheet("QPushButton{\n"
+        self.add_lawyercase_btn.setFont(font)
+        self.add_lawyercase_btn.setStyleSheet("QPushButton{\n"
 "    background-color: rgb(0, 139, 0);\n"
 "    color:white;\n"
 "    border:none;\n"
@@ -885,31 +885,31 @@ class Ui_MainWindow(object):
 "QPushButton:hover{\n"
 "    background-color: rgb(0, 170, 0);\n"
 "}")
-        self.add_clientcase_btn_2.setObjectName("add_clientcase_btn_2")
-        self.horizontalLayout_5.addWidget(self.add_clientcase_btn_2)
-        self.search_client_case_2 = QtWidgets.QLineEdit(self.horizontalLayoutWidget_5)
+        self.add_lawyercase_btn.setObjectName("add_lawyercase_btn")
+        self.horizontalLayout_5.addWidget(self.add_lawyercase_btn)
+        self.search_lawyer_case = QtWidgets.QLineEdit(self.horizontalLayoutWidget_5)
         font = QtGui.QFont()
         font.setFamily("Poppins")
         font.setPointSize(10)
-        self.search_client_case_2.setFont(font)
-        self.search_client_case_2.setStyleSheet("QLineEdit{\n"
+        self.search_lawyer_case.setFont(font)
+        self.search_lawyer_case.setStyleSheet("QLineEdit{\n"
 "    border: 1px solid grey;\n"
 "    border-radius: 15px;\n"
 "    height: 35px;\n"
 "    \n"
 "}")
-        self.search_client_case_2.setText("")
-        self.search_client_case_2.setObjectName("search_client_case_2")
-        self.horizontalLayout_5.addWidget(self.search_client_case_2)
-        self.client_case_delete_2 = QtWidgets.QPushButton(self.case_lawyer_client_page)
-        self.client_case_delete_2.setGeometry(QtCore.QRect(530, 630, 161, 35))
+        self.search_lawyer_case.setText("")
+        self.search_lawyer_case.setObjectName("search_lawyer_case")
+        self.horizontalLayout_5.addWidget(self.search_lawyer_case)
+        self.delete_lawyer_case = QtWidgets.QPushButton(self.case_lawyer_client_page)
+        self.delete_lawyer_case.setGeometry(QtCore.QRect(530, 630, 161, 35))
         font = QtGui.QFont()
         font.setFamily("Poppins")
         font.setPointSize(-1)
         font.setBold(True)
         font.setWeight(75)
-        self.client_case_delete_2.setFont(font)
-        self.client_case_delete_2.setStyleSheet("QPushButton{\n"
+        self.delete_lawyer_case.setFont(font)
+        self.delete_lawyer_case.setStyleSheet("QPushButton{\n"
 "    background-color: rgb(202, 0, 0);\n"
 "    color:white;\n"
 "    border:none;\n"
@@ -923,16 +923,16 @@ class Ui_MainWindow(object):
 "QPushButton:hover{\n"
 "    background-color:rgb(207, 64, 64);\n"
 "}")
-        self.client_case_delete_2.setObjectName("client_case_delete_2")
-        self.client_case_edit_2 = QtWidgets.QPushButton(self.case_lawyer_client_page)
-        self.client_case_edit_2.setGeometry(QtCore.QRect(700, 630, 151, 35))
+        self.delete_lawyer_case.setObjectName("delete_lawyer_case")
+        self.edit_lawyer_case = QtWidgets.QPushButton(self.case_lawyer_client_page)
+        self.edit_lawyer_case.setGeometry(QtCore.QRect(700, 630, 151, 35))
         font = QtGui.QFont()
         font.setFamily("Poppins")
         font.setPointSize(-1)
         font.setBold(True)
         font.setWeight(75)
-        self.client_case_edit_2.setFont(font)
-        self.client_case_edit_2.setStyleSheet("QPushButton{\n"
+        self.edit_lawyer_case.setFont(font)
+        self.edit_lawyer_case.setStyleSheet("QPushButton{\n"
 "    background-color: #1d3453;\n"
 "    color:white;\n"
 "    border:none;\n"
@@ -946,7 +946,7 @@ class Ui_MainWindow(object):
 "QPushButton:hover{\n"
 "    background-color:rgb(51, 93, 148);\n"
 "}")
-        self.client_case_edit_2.setObjectName("client_case_edit_2")
+        self.edit_lawyer_case.setObjectName("edit_lawyer_case")
         self.functionWidget.addWidget(self.case_lawyer_client_page)
         self.titleWidget = QtWidgets.QWidget(self.centralwidget)
         self.titleWidget.setGeometry(QtCore.QRect(0, 0, 1211, 61))
@@ -1080,10 +1080,10 @@ class Ui_MainWindow(object):
         self.search_client_case.setPlaceholderText(_translate("MainWindow", "Search Client Case Here (Client Name, Case Name)"))
         self.client_case_delete.setText(_translate("MainWindow", "Delete Client Case"))
         self.client_case_edit.setText(_translate("MainWindow", "Edit Client Case"))
-        self.add_clientcase_btn_2.setText(_translate("MainWindow", "Add Lawyer Case"))
-        self.search_client_case_2.setPlaceholderText(_translate("MainWindow", "Search Lawyer Case Here (Name, Date)"))
-        self.client_case_delete_2.setText(_translate("MainWindow", "Delete Lawyer Case"))
-        self.client_case_edit_2.setText(_translate("MainWindow", "Edit Lawyer Case"))
+        self.add_lawyercase_btn.setText(_translate("MainWindow", "Add Lawyer Case"))
+        self.search_lawyer_case.setPlaceholderText(_translate("MainWindow", "Search Lawyer Case Here (Name, Date)"))
+        self.delete_lawyer_case.setText(_translate("MainWindow", "Delete Lawyer Case"))
+        self.edit_lawyer_case.setText(_translate("MainWindow", "Edit Lawyer Case"))
         self.title.setText(_translate("MainWindow", "Law Firm Management System"))
 from static import resources_rc
 
