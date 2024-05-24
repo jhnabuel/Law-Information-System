@@ -1,4 +1,4 @@
-         import re
+import re
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QWidget, QMessageBox, QMainWindow, QDialog, QTableWidgetItem, QAbstractItemView
 from PyQt5.QtCore import Qt, QPoint, pyqtSlot, pyqtSignal
