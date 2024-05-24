@@ -106,7 +106,7 @@ class ConnectDatabase:
 
             else:
                 # If no search value is provided, select all rows from the "lawyer" table and order by lawyerID
-                sql = "SELECT * FROM lawyer ORDER BY lawyerID ASC;"
+                sql = "SELECT * FROM lawyer_table ORDER BY lawyerID ASC;"
                 # Execute the query without parameters
                 self.cursor.execute(sql)
 
@@ -127,7 +127,7 @@ class ConnectDatabase:
     def client_id_exists(self, client_id):
         # Checks whether ID exists in the database
         self.connect_database()
-        query = "SELECT * FROM lawyer WHERE lawyerID = %s"
+        query = "SELECT * FROM client_table WHERE clientID = %s"
         self.cursor.execute(query, (client_id,))
         result = self.cursor.fetchone()
         self.cursor.close()
@@ -136,7 +136,7 @@ class ConnectDatabase:
     def add_client_info(self, client_id, client_name, client_type, client_email, lawyer_name):
         try:
             self.connect_database()
-            query = """INSERT INTO client (clientID, clientName, clientType, clientEmail, lawyerName) 
+            query = """INSERT INTO client_table (clientID, clientName, clientType, clientEmail, lawyerName) 
                            VALUES (%s, %s, %s, %s, %s);"""
             self.cursor.execute(query, (client_id, client_name, client_type, client_email, lawyer_name))
             self.connect.commit()
@@ -150,7 +150,7 @@ class ConnectDatabase:
     def edit_client_info(self, client_id, client_name, client_type, client_email, lawyer_name):
         try:
             self.connect_database()
-            query = f"""UPDATE client
+            query = f"""UPDATE client_table
                 SET clientName = %s, clientType = %s, clientEmail = %s, lawyerID = %s
                            WHERE clientID = %s;"""
             self.cursor.execute(query, (client_name, client_type, client_email, lawyer_name, client_id))
@@ -164,7 +164,7 @@ class ConnectDatabase:
 
     def delete_client_info(self, client_id):
         self.connect_database()
-        sql = "DELETE FROM client WHERE clientID = %s;"
+        sql = "DELETE FROM client_table WHERE clientID = %s;"
         try:
             self.cursor.execute(sql, (client_id,))
             self.connect.commit()
@@ -177,7 +177,7 @@ class ConnectDatabase:
     def get_lawyer_names(self):
         try:
             self.connect_database()
-            query = "SELECT lawyerName FROM lawyer;"
+            query = "SELECT lawyerName FROM lawyer_table;"
             self.cursor.execute(query)
             lawyer_names = [row[0] for row in self.cursor.fetchall()]
             return lawyer_names
@@ -190,7 +190,7 @@ class ConnectDatabase:
     def search_client_info(self, search_value=None):
         try:
             columns = ["clientID", "clientName", "clientType", "clientEmail",
-                           "lawyerName"]
+                           "clientLawyer"]
 
             if search_value:
                 condition = "clientID LIKE %s OR clientName LIKE %s OR clientType LIKE %s OR clientEmail LIKE %s OR clientLawyer LIKE %s"
@@ -198,13 +198,13 @@ class ConnectDatabase:
                 condition = None
             if condition:
                 sql = f"""        
-                SELECT * FROM client WHERE {condition};
+                SELECT * FROM client_table WHERE {condition};
                 """
                 self.cursor.execute(sql, (
                 f"%{search_value}%", f"%{search_value}%", f"%{search_value}%", f"%{search_value}%",
                 f"%{search_value}%"))
             else:
-                sql = "SELECT * FROM client ORDER BY clientID ASC;"
+                sql = "SELECT * FROM client_table ORDER BY clientID ASC;"
                 self.cursor.execute(sql)
             rows = self.cursor.fetchall()
             return rows
