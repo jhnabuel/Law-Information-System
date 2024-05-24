@@ -320,7 +320,7 @@ color: #1d3453;
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="lawyerPage">
      <widget class="QWidget" name="verticalLayoutWidget_2">
@@ -398,7 +398,7 @@ color: #1d3453;
        <bool>true</bool>
       </property>
       <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
+       <bool>true</bool>
       </attribute>
       <attribute name="horizontalHeaderCascadingSectionResizes">
        <bool>false</bool>
@@ -464,7 +464,7 @@ color: #1d3453;
          <property name="font">
           <font>
            <family>Poppins</family>
-           <pointsize>-1</pointsize>
+           <pointsize>11</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -476,7 +476,7 @@ color: #1d3453;
 	border:none;
 	border-radius: 8px;
 	font-weight: bold;
-	font-size: 15px;
+	font-size: 11pt;
 	height: 35px;
 	width: 100px;
 }
@@ -495,7 +495,7 @@ QPushButton:hover{
          <property name="font">
           <font>
            <family>Poppins</family>
-           <pointsize>-1</pointsize>
+           <pointsize>11</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -507,7 +507,7 @@ QPushButton:hover{
 	border:none;
 	border-radius: 8px;
 	font-weight: bold;
-	font-size: 15px;
+	font-size: 11pt;
 	height: 35px;
 	width: 120px;
 }
@@ -550,7 +550,7 @@ QPushButton:hover{
          <property name="font">
           <font>
            <family>Poppins</family>
-           <pointsize>-1</pointsize>
+           <pointsize>11</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -562,7 +562,7 @@ QPushButton:hover{
 	border:none;
 	border-radius: 8px;
 	font-weight: bold;
-	font-size: 15px;
+	font-size: 11pt;
 	height: 35px;
 	width: 120px;
 }
@@ -1149,7 +1149,7 @@ QPushButton:hover{
        <bool>true</bool>
       </property>
       <attribute name="horizontalHeaderVisible">
-       <bool>true</bool>
+       <bool>false</bool>
       </attribute>
       <attribute name="horizontalHeaderCascadingSectionResizes">
        <bool>false</bool>
@@ -1222,7 +1222,7 @@ QPushButton:hover{
        <bool>true</bool>
       </property>
       <attribute name="horizontalHeaderVisible">
-       <bool>true</bool>
+       <bool>false</bool>
       </attribute>
       <attribute name="horizontalHeaderCascadingSectionResizes">
        <bool>false</bool>

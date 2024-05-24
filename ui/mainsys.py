@@ -270,7 +270,7 @@ class Ui_MainWindow(object):
         self.lawyerDisplay.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
         self.lawyerDisplay.setHorizontalHeaderItem(5, item)
-        self.lawyerDisplay.horizontalHeader().setVisible(False)
+        self.lawyerDisplay.horizontalHeader().setVisible(True)
         self.lawyerDisplay.horizontalHeader().setCascadingSectionResizes(False)
         self.lawyerDisplay.horizontalHeader().setDefaultSectionSize(150)
         self.lawyerDisplay.horizontalHeader().setSortIndicatorShown(True)
@@ -286,7 +286,7 @@ class Ui_MainWindow(object):
         self.addLawyer = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.addLawyer.setFont(font)
@@ -296,7 +296,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 100px;\n"
 "}\n"
@@ -309,7 +309,7 @@ class Ui_MainWindow(object):
         self.deleteLawyer = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.deleteLawyer.setFont(font)
@@ -319,7 +319,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 120px;\n"
 "}\n"
@@ -346,7 +346,7 @@ class Ui_MainWindow(object):
         self.editLawyer = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.editLawyer.setFont(font)
@@ -356,7 +356,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 120px;\n"
 "}\n"
@@ -707,7 +707,7 @@ class Ui_MainWindow(object):
         self.client_case_display.setItem(0, 0, item)
         item = QtWidgets.QTableWidgetItem()
         self.client_case_display.setItem(0, 1, item)
-        self.client_case_display.horizontalHeader().setVisible(True)
+        self.client_case_display.horizontalHeader().setVisible(False)
         self.client_case_display.horizontalHeader().setCascadingSectionResizes(False)
         self.client_case_display.horizontalHeader().setDefaultSectionSize(250)
         self.client_case_display.horizontalHeader().setSortIndicatorShown(True)
@@ -739,7 +739,7 @@ class Ui_MainWindow(object):
         self.lawyer_case_display.setItem(0, 1, item)
         item = QtWidgets.QTableWidgetItem()
         self.lawyer_case_display.setItem(0, 2, item)
-        self.lawyer_case_display.horizontalHeader().setVisible(True)
+        self.lawyer_case_display.horizontalHeader().setVisible(False)
         self.lawyer_case_display.horizontalHeader().setCascadingSectionResizes(False)
         self.lawyer_case_display.horizontalHeader().setDefaultSectionSize(160)
         self.lawyer_case_display.horizontalHeader().setSortIndicatorShown(True)
@@ -954,7 +954,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.functionWidget.setCurrentIndex(3)
+        self.functionWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1063,7 +1063,6 @@ class Ui_MainWindow(object):
         self.delete_lawyer_case.setText(_translate("MainWindow", "Delete Lawyer Case"))
         self.edit_lawyer_case.setText(_translate("MainWindow", "Edit Lawyer Case"))
         self.title.setText(_translate("MainWindow", "Law Firm Management System"))
-
 from static import resources_rc
 
 
