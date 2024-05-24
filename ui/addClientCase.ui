@@ -97,7 +97,7 @@ color: white;
    <property name="font">
     <font>
      <family>Poppins</family>
-     <pointsize>-1</pointsize>
+     <pointsize>11</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -109,7 +109,7 @@ color: white;
 	border:none;
 	border-radius: 8px;
 	font-weight: bold;
-	font-size: 15px;
+	font-size: 11pt;
 }
 
 QPushButton:hover{
@@ -132,7 +132,7 @@ QPushButton:hover{
    <property name="font">
     <font>
      <family>Poppins</family>
-     <pointsize>-1</pointsize>
+     <pointsize>11</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -144,7 +144,7 @@ QPushButton:hover{
 	border:none;
 	border-radius: 8px;
 	font-weight: bold;
-	font-size: 15px;
+	font-size: 11pt;
 }
 
 QPushButton:hover{
@@ -155,7 +155,7 @@ QPushButton:hover{
     <string>Cancel</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -189,7 +189,7 @@ QPushButton:hover{
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>30</x>

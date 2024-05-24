@@ -123,7 +123,7 @@ class Ui_editLawyerCase(object):
         self.edit_info.setGeometry(QtCore.QRect(30, 350, 141, 41))
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.edit_info.setFont(font)
@@ -133,7 +133,7 @@ class Ui_editLawyerCase(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "}\n"
 "\n"
 "QPushButton:hover{\n"
@@ -144,7 +144,7 @@ class Ui_editLawyerCase(object):
         self.edit_info_cancel.setGeometry(QtCore.QRect(190, 350, 121, 40))
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.edit_info_cancel.setFont(font)
@@ -154,7 +154,7 @@ class Ui_editLawyerCase(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "}\n"
 "\n"
 "QPushButton:hover{\n"

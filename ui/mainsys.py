@@ -22,14 +22,12 @@ class Ui_MainWindow(object):
 "#lawyerButton{\n"
 "  border: none;\n"
 "  color: #fff;\n"
-"  cursor: pointer;\n"
-"  font-size: 18px;\n"
+"  font-size: 13.5pt;\n"
 "  outline: 0;\n"
 "  padding: 16px 21px;\n"
 "  position: relative;\n"
 "text-align: left;\n"
 "  text-decoration: none;\n"
-"  transition: all .3s;\n"
 "}\n"
 "\n"
 "#lawyerButton:checked {\n"
@@ -40,14 +38,12 @@ class Ui_MainWindow(object):
 "#clientButton{\n"
 "  border: none;\n"
 "  color: #fff;\n"
-"  cursor: pointer;\n"
-"  font-size: 18px;\n"
+"  font-size: 13.5pt;\n"
 "  outline: 0;\n"
 "  padding: 16px 21px;\n"
 "  position: relative;\n"
 "text-align: left;\n"
 "  text-decoration: none;\n"
-"  transition: all .3s;\n"
 "}\n"
 "\n"
 "#clientButton:checked {\n"
@@ -58,14 +54,12 @@ class Ui_MainWindow(object):
 "#caseButton{\n"
 "  border: none;\n"
 "  color: #fff;\n"
-"  cursor: pointer;\n"
-"  font-size: 18px;\n"
+"  font-size: 13.5pt;\n"
 "  outline: 0;\n"
 "  padding: 16px 21px;\n"
 "  position: relative;\n"
 "text-align: left;\n"
 "  text-decoration: none;\n"
-"  transition: all .3s;\n"
 "}\n"
 "#caseButton:checked {\n"
 " background-color: #F5FAFE;\n"
@@ -76,14 +70,12 @@ class Ui_MainWindow(object):
 "#caseButton_2{\n"
 "  border: none;\n"
 "  color: #fff;\n"
-"  cursor: pointer;\n"
-"  font-size: 12px;\n"
+"  font-size: 9pt;\n"
 "  outline: 0;\n"
 "  padding: 6px 8px;\n"
 "  position: relative;\n"
 "text-align: right;\n"
 "  text-decoration: none;\n"
-"  transition: all .3s;\n"
 "}\n"
 "\n"
 "#caseButton_2:checked {\n"
@@ -96,6 +88,7 @@ class Ui_MainWindow(object):
 "color: white; \n"
 "font-weight: bold; \n"
 "font-family: Poppins;\n"
+"font-size: 9pt;\n"
 "}\n"
 "\n"
 "")
@@ -130,7 +123,7 @@ class Ui_MainWindow(object):
         self.lawyerButton = QtWidgets.QPushButton(self.verticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(14)
         font.setUnderline(False)
         font.setStrikeOut(False)
         self.lawyerButton.setFont(font)
@@ -146,7 +139,7 @@ class Ui_MainWindow(object):
         self.clientButton = QtWidgets.QPushButton(self.verticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(14)
         font.setUnderline(False)
         font.setStrikeOut(False)
         self.clientButton.setFont(font)
@@ -162,27 +155,11 @@ class Ui_MainWindow(object):
         self.caseButton = QtWidgets.QPushButton(self.verticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(14)
         font.setUnderline(False)
         font.setStrikeOut(False)
         self.caseButton.setFont(font)
-        self.caseButton.setStyleSheet("#caseButton{\n"
-"  border: none;\n"
-"  color: #fff;\n"
-"  cursor: pointer;\n"
-"  font-size: 18px;\n"
-"  outline: 0;\n"
-"  padding: 16px 21px;\n"
-"  position: relative;\n"
-"text-align: left;\n"
-"  text-decoration: none;\n"
-"  transition: all .3s;\n"
-"}\n"
-"#caseButton:checked {\n"
-" background-color: #F5FAFE;\n"
-"color: #1d3453;\n"
-"}\n"
-"")
+        self.caseButton.setStyleSheet("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(":/icon/case.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         icon2.addPixmap(QtGui.QPixmap(":/icon/casedark.svg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
@@ -194,7 +171,7 @@ class Ui_MainWindow(object):
         self.caseButton_2 = QtWidgets.QPushButton(self.verticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(9)
         font.setUnderline(False)
         font.setStrikeOut(False)
         self.caseButton_2.setFont(font)
@@ -208,7 +185,7 @@ class Ui_MainWindow(object):
         self.exitButton.setGeometry(QtCore.QRect(0, 600, 201, 53))
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(14)
         font.setBold(False)
         font.setUnderline(False)
         font.setWeight(50)
@@ -217,14 +194,12 @@ class Ui_MainWindow(object):
         self.exitButton.setStyleSheet("#exitButton{\n"
 "  border: none;\n"
 "  color: #fff;\n"
-"  cursor: pointer;\n"
-"  font-size: 18px;\n"
+"  font-size: 13.5pt;\n"
 "  outline: 0;\n"
 "  padding: 16px 21px;\n"
 "  position: relative;\n"
 "text-align: center;\n"
 "  text-decoration: none;\n"
-"  transition: all .3s;\n"
 "}\n"
 "\n"
 "#exitButton:checked {\n"
@@ -428,7 +403,7 @@ class Ui_MainWindow(object):
         self.addClient = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.addClient.setFont(font)
@@ -438,7 +413,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 100px;\n"
 "}\n"
@@ -451,7 +426,7 @@ class Ui_MainWindow(object):
         self.deleteClient = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.deleteClient.setFont(font)
@@ -461,7 +436,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 120px;\n"
 "}\n"
@@ -488,7 +463,7 @@ class Ui_MainWindow(object):
         self.editClient = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.editClient.setFont(font)
@@ -498,7 +473,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 120px;\n"
 "}\n"
@@ -572,7 +547,7 @@ class Ui_MainWindow(object):
         self.addCase = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.addCase.setFont(font)
@@ -582,7 +557,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 100px;\n"
 "}\n"
@@ -595,7 +570,7 @@ class Ui_MainWindow(object):
         self.deleteCase = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.deleteCase.setFont(font)
@@ -605,7 +580,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 120px;\n"
 "}\n"
@@ -632,7 +607,7 @@ class Ui_MainWindow(object):
         self.editCase = QtWidgets.QPushButton(self.horizontalLayoutWidget_3)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.editCase.setFont(font)
@@ -642,7 +617,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 120px;\n"
 "}\n"
@@ -656,6 +631,9 @@ class Ui_MainWindow(object):
         self.caseDisplay.setGeometry(QtCore.QRect(20, 160, 971, 491))
         font = QtGui.QFont()
         font.setFamily("Poppins")
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.caseDisplay.setFont(font)
         self.caseDisplay.setFocusPolicy(QtCore.Qt.NoFocus)
         self.caseDisplay.setShowGrid(True)
@@ -777,7 +755,7 @@ class Ui_MainWindow(object):
         self.add_clientcase_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_4)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.add_clientcase_btn.setFont(font)
@@ -787,7 +765,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 130px;\n"
 "}\n"
@@ -815,7 +793,7 @@ class Ui_MainWindow(object):
         self.client_case_delete.setGeometry(QtCore.QRect(10, 630, 151, 35))
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.client_case_delete.setFont(font)
@@ -825,7 +803,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 120px;\n"
 "}\n"
@@ -838,7 +816,7 @@ class Ui_MainWindow(object):
         self.client_case_edit.setGeometry(QtCore.QRect(170, 630, 151, 35))
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.client_case_edit.setFont(font)
@@ -848,7 +826,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 120px;\n"
 "}\n"
@@ -867,7 +845,7 @@ class Ui_MainWindow(object):
         self.add_lawyercase_btn = QtWidgets.QPushButton(self.horizontalLayoutWidget_5)
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.add_lawyercase_btn.setFont(font)
@@ -877,7 +855,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 140px;\n"
 "}\n"
@@ -905,7 +883,7 @@ class Ui_MainWindow(object):
         self.delete_lawyer_case.setGeometry(QtCore.QRect(530, 630, 161, 35))
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.delete_lawyer_case.setFont(font)
@@ -915,7 +893,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 120px;\n"
 "}\n"
@@ -928,7 +906,7 @@ class Ui_MainWindow(object):
         self.edit_lawyer_case.setGeometry(QtCore.QRect(700, 630, 151, 35))
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.edit_lawyer_case.setFont(font)
@@ -938,7 +916,7 @@ class Ui_MainWindow(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "    height: 35px;\n"
 "    width: 120px;\n"
 "}\n"
@@ -960,14 +938,14 @@ class Ui_MainWindow(object):
 "}\n"
 "#title{\n"
 "color:white;\n"
-"font-size:35px;\n"
+"font-size:26pt;\n"
 "}")
         self.titleWidget.setObjectName("titleWidget")
         self.title = QtWidgets.QLabel(self.titleWidget)
         self.title.setGeometry(QtCore.QRect(60, 0, 581, 61))
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(26)
         font.setBold(True)
         font.setItalic(False)
         font.setWeight(75)
@@ -1085,6 +1063,7 @@ class Ui_MainWindow(object):
         self.delete_lawyer_case.setText(_translate("MainWindow", "Delete Lawyer Case"))
         self.edit_lawyer_case.setText(_translate("MainWindow", "Edit Lawyer Case"))
         self.title.setText(_translate("MainWindow", "Law Firm Management System"))
+
 from static import resources_rc
 
 

@@ -68,7 +68,7 @@ class Ui_addClientCase(object):
         self.add_client_Case.setGeometry(QtCore.QRect(30, 260, 141, 41))
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.add_client_Case.setFont(font)
@@ -78,7 +78,7 @@ class Ui_addClientCase(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "}\n"
 "\n"
 "QPushButton:hover{\n"
@@ -89,7 +89,7 @@ class Ui_addClientCase(object):
         self.add_info_cancel.setGeometry(QtCore.QRect(190, 260, 121, 40))
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.add_info_cancel.setFont(font)
@@ -99,46 +99,46 @@ class Ui_addClientCase(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "}\n"
 "\n"
 "QPushButton:hover{\n"
 "    background-color: rgb(53, 96, 153)\n"
 "}")
         self.add_info_cancel.setObjectName("add_info_cancel")
-        self.widget = QtWidgets.QWidget(addClientCase)
-        self.widget.setGeometry(QtCore.QRect(30, 70, 281, 73))
-        self.widget.setObjectName("widget")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.widget)
+        self.layoutWidget = QtWidgets.QWidget(addClientCase)
+        self.layoutWidget.setGeometry(QtCore.QRect(30, 70, 281, 73))
+        self.layoutWidget.setObjectName("layoutWidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label_6 = QtWidgets.QLabel(self.widget)
+        self.label_6 = QtWidgets.QLabel(self.layoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
         font.setPointSize(12)
         self.label_6.setFont(font)
         self.label_6.setObjectName("label_6")
         self.verticalLayout.addWidget(self.label_6)
-        self.client_name_combo = QtWidgets.QComboBox(self.widget)
+        self.client_name_combo = QtWidgets.QComboBox(self.layoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
         self.client_name_combo.setFont(font)
         self.client_name_combo.setObjectName("client_name_combo")
         self.verticalLayout.addWidget(self.client_name_combo)
-        self.widget1 = QtWidgets.QWidget(addClientCase)
-        self.widget1.setGeometry(QtCore.QRect(30, 160, 281, 73))
-        self.widget1.setObjectName("widget1")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.widget1)
+        self.layoutWidget1 = QtWidgets.QWidget(addClientCase)
+        self.layoutWidget1.setGeometry(QtCore.QRect(30, 160, 281, 73))
+        self.layoutWidget1.setObjectName("layoutWidget1")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.layoutWidget1)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.label_5 = QtWidgets.QLabel(self.widget1)
+        self.label_5 = QtWidgets.QLabel(self.layoutWidget1)
         font = QtGui.QFont()
         font.setFamily("Poppins")
         font.setPointSize(12)
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
         self.verticalLayout_2.addWidget(self.label_5)
-        self.client_case_combo = QtWidgets.QComboBox(self.widget1)
+        self.client_case_combo = QtWidgets.QComboBox(self.layoutWidget1)
         font = QtGui.QFont()
         font.setFamily("Poppins")
         self.client_case_combo.setFont(font)

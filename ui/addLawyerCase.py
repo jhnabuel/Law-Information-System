@@ -68,7 +68,7 @@ class Ui_addLawyerCase(object):
         self.add_info.setGeometry(QtCore.QRect(30, 350, 141, 41))
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.add_info.setFont(font)
@@ -78,7 +78,7 @@ class Ui_addLawyerCase(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "}\n"
 "\n"
 "QPushButton:hover{\n"
@@ -89,7 +89,7 @@ class Ui_addLawyerCase(object):
         self.add_info_cancel.setGeometry(QtCore.QRect(190, 350, 121, 40))
         font = QtGui.QFont()
         font.setFamily("Poppins")
-        font.setPointSize(-1)
+        font.setPointSize(11)
         font.setBold(True)
         font.setWeight(75)
         self.add_info_cancel.setFont(font)
@@ -99,30 +99,30 @@ class Ui_addLawyerCase(object):
 "    border:none;\n"
 "    border-radius: 8px;\n"
 "    font-weight: bold;\n"
-"    font-size: 15px;\n"
+"    font-size: 11pt;\n"
 "}\n"
 "\n"
 "QPushButton:hover{\n"
 "    background-color: rgb(53, 96, 153)\n"
 "}")
         self.add_info_cancel.setObjectName("add_info_cancel")
-        self.widget = QtWidgets.QWidget(addLawyerCase)
-        self.widget.setGeometry(QtCore.QRect(20, 80, 301, 242))
-        self.widget.setObjectName("widget")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.widget)
+        self.layoutWidget = QtWidgets.QWidget(addLawyerCase)
+        self.layoutWidget.setGeometry(QtCore.QRect(20, 80, 301, 242))
+        self.layoutWidget.setObjectName("layoutWidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setSpacing(6)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.label_4 = QtWidgets.QLabel(self.widget)
+        self.label_4 = QtWidgets.QLabel(self.layoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
         font.setPointSize(12)
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
         self.verticalLayout_3.addWidget(self.label_4)
-        self.assigned_lawyer_combo = QtWidgets.QComboBox(self.widget)
+        self.assigned_lawyer_combo = QtWidgets.QComboBox(self.layoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
         self.assigned_lawyer_combo.setFont(font)
@@ -131,14 +131,14 @@ class Ui_addLawyerCase(object):
         self.verticalLayout.addLayout(self.verticalLayout_3)
         self.verticalLayout_4 = QtWidgets.QVBoxLayout()
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.label_5 = QtWidgets.QLabel(self.widget)
+        self.label_5 = QtWidgets.QLabel(self.layoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
         font.setPointSize(12)
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
         self.verticalLayout_4.addWidget(self.label_5)
-        self.case_name_combo = QtWidgets.QComboBox(self.widget)
+        self.case_name_combo = QtWidgets.QComboBox(self.layoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
         self.case_name_combo.setFont(font)
@@ -146,14 +146,14 @@ class Ui_addLawyerCase(object):
         self.verticalLayout_4.addWidget(self.case_name_combo)
         self.verticalLayout_5 = QtWidgets.QVBoxLayout()
         self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.label_6 = QtWidgets.QLabel(self.widget)
+        self.label_6 = QtWidgets.QLabel(self.layoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
         font.setPointSize(12)
         self.label_6.setFont(font)
         self.label_6.setObjectName("label_6")
         self.verticalLayout_5.addWidget(self.label_6)
-        self.lawyer_start_date = QtWidgets.QDateEdit(self.widget)
+        self.lawyer_start_date = QtWidgets.QDateEdit(self.layoutWidget)
         font = QtGui.QFont()
         font.setFamily("Poppins")
         self.lawyer_start_date.setFont(font)
