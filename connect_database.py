@@ -21,7 +21,7 @@ class ConnectDatabase:
     def lawyer_id_exists(self, lawyer_id):
         # Checks whether ID exists in the database
         self.connect_database()
-        query = "SELECT * FROM lawyer WHERE lawyerID = %s"
+        query = "SELECT * FROM lawyer_table WHERE lawyerID = %s"
         self.cursor.execute(query, (lawyer_id,))
         result = self.cursor.fetchone()
         self.cursor.close()
@@ -32,7 +32,7 @@ class ConnectDatabase:
             # Connect to database
             self.connect_database()
             # Prepare the SQL query with placeholders
-            query = """INSERT INTO lawyer (lawyerID, lawyerName, lawyerGender, lawyerPosition, lawyerSpecialization, lawyerEmail) 
+            query = """INSERT INTO lawyer_table (lawyerID, lawyerName, lawyerGender, lawyerPosition, lawyerSpecialization, lawyerEmail) 
                        VALUES (%s, %s, %s, %s, %s, %s);"""
             # Execute the SQL query with the provided parameters
             self.cursor.execute(query, (lawyer_id, lawyer_name, lawyer_gender, lawyer_position, lawyer_specialization, lawyer_email))
@@ -50,7 +50,7 @@ class ConnectDatabase:
     def delete_lawyer_info(self, lawyer_id):
         self.connect_database()
         # Construct SQL query for deleting student info
-        sql = "DELETE FROM lawyer WHERE lawyerID = %s;"
+        sql = "DELETE FROM lawyer_table WHERE lawyerID = %s;"
         try:
             # Execute the SQL query for deleting student info
             self.cursor.execute(sql, (lawyer_id,))
@@ -67,7 +67,7 @@ class ConnectDatabase:
         try:
             self.connect_database()
             # Prepare the SQL query with placeholders
-            query = f"""UPDATE lawyer
+            query = f"""UPDATE lawyer_table
                 SET lawyerName = %s, lawyerGender = %s, lawyerPosition = %s, lawyerSpecialization = %s, lawyerEmail = %s 
                        WHERE lawyerID = %s;"""
             # Execute the SQL query with the provided parameters
@@ -99,7 +99,7 @@ class ConnectDatabase:
 
             if condition:
                 sql = f"""
-                               SELECT * FROM lawyer WHERE {condition};    
+                               SELECT * FROM lawyer_table WHERE {condition};    
                            """
                 self.cursor.execute(sql, (f"%{search_value}%", f"%{search_value}%", f"%{search_value}%",
                                           f"%{search_value}%", f"%{search_value}%"))      # Correct parameter passing
