@@ -123,7 +123,8 @@ class ConnectDatabase:
             # Ensure the database connection is closed
             self.connect.close()
 
-        # Client
+
+# Client
     def client_id_exists(self, client_id):
         # Checks whether ID exists in the database
         self.connect_database()
@@ -213,6 +214,7 @@ class ConnectDatabase:
             print(str(E))
         finally:
             self.connect.close()
+
 
 # case
     def case_id_exists(self, case_id):
@@ -307,6 +309,147 @@ class ConnectDatabase:
             else:
                 # If no search value is provided, select all rows from the "lawyer" table and order by lawyerID
                 sql = "SELECT * FROM case_table ORDER BY case_id ASC;"
+                # Execute the query without parameters
+                self.cursor.execute(sql)
+
+            # Fetch all the rows resulting from the query
+            rows = self.cursor.fetchall()
+            # Return the fetched rows
+            return rows
+
+        except Exception as E:
+            # Print any exception that occurs
+            print(str(E))
+
+        finally:
+            # Ensure the database connection is closed
+            self.connect.close()
+
+
+# lawyer case
+    def add_lawyer_case_info(self, lawyer_id, case_id, start_date):
+        try:
+            # Execute the query 
+            self.cursor.execute("SELECT lawyerID FROM lawyer WHERE name=?")
+
+            # Fetch the result
+            result_lawyer = self.cursor.fetchone()
+
+            if result_lawyer:
+                # Extract the corresponding lawyer ID
+                lawyer_fetched_id = result_lawyer[0]
+
+            # Execute the query
+            self.cursor.execute("SELECT case_id FROM case_table WHERE case_name?")
+
+            # Fecth the result
+            result_case = self.cursor.fetchone()
+
+            if result_case:
+                # Extract the ID
+                case_fetched_id = result_case[0]
+
+            # Connect to database
+            self.connect_database()
+            # Prepare the SQL query with placeholders
+            query = """INSERT INTO lawyer_case_table (lawyer_id, case_id, start_date) 
+                       VALUES (lawyer_fetched_id, case_fetched_id, start_date);"""
+            
+            # Execute the SQL query with the provided parameters
+            self.cursor.execute(query, (lawyer_id, case_id, start_date))
+            # Commit the transaction to save the changes
+            self.connect.commit()
+            return None  # Return None to indicate success
+        except Exception as e:
+            # Rollback the transaction and return the error message
+            self.connect.rollback()
+            return str(e)
+        finally:
+            # Close the database connection
+            self.connect.close()
+
+
+    def delete_lawyer_case_info(self, lawyer_id):
+        self.connect_database()
+        # Construct SQL query for deleting lawyer case info
+        sql = "DELETE FROM lawyer_case_table WHERE lawyer_id = %s;"
+        try:
+            # Execute the SQL query for deleting lawyer case info
+            self.cursor.execute(sql, (lawyer_id,))
+            self.connect.commit()
+        except Exception as E:
+            # Rollback the operation in a lawyer case of an error
+            self.connect.rollback()
+            return E
+        finally:
+            # Close the database connection
+            self.connect.close()
+
+
+    def edit_lawyer_case_info(self, old_lawyer_id, old_case_id, lawyer_name, case_name, start_date):
+        try:
+            self.connect_database()
+
+            # Fetch the corresponding lawyer ID based on the lawyer name
+            self.cursor.execute("SELECT lawyerID FROM lawyer WHERE name=?", (lawyer_name,))
+            result_lawyer = self.cursor.fetchone()
+            if result_lawyer:
+                new_lawyer_id = result_lawyer[0]
+            else:
+                return f"Lawyer with name '{lawyer_name}' not found."
+
+            # Fetch the corresponding case ID based on the case name
+            self.cursor.execute("SELECT case_id FROM case_table WHERE case_name=?", (case_name))
+            result_case = self.cursor.fetchone()
+            if result_case:
+                new_case_id = result_case[0]
+            else:
+                return f"Case with name '{case_name} not found."
+            
+            # Prepare the SQL query to update the lawyer_case_table
+            query = """
+                    UPDATE lawyer_case_table
+                    SET laywer_id = ?, case_id = ?, start_date = ?
+                    WHERE lawyer_id = ? AND case_id = ?;
+            """
+
+            # Execute the SQL query with the provided parameters
+            self.cursor.execute(query, (new_lawyer_id, new_case_id, start_date, old_lawyer_id, old_case_id))
+            # Commit the transaction to save the changes
+            self.connect.commit()
+            
+            return None  # Return None to indicate success
+        except Exception as e:
+            # Rollback the transaction and return the error message
+            self.connect.rollback()
+            return str(e)
+        finally:
+            # Close the database connection
+            self.connect.close()
+
+
+    def search_lawyer_case_info(self, search_value=None):
+        try:
+            # Define the columns to search in the "case" table
+            columns = ["lawyer_id", "case_id"]
+
+            if search_value:
+                # Create the search condition by joining each column with an
+                # OR condition and using placeholders for the parameters
+                condition = "lawyer_id LIKE %s OR case_id LIKE %s" 
+                # Form the SQL query to select all rows from the "case" table
+            else:
+                condition = None
+
+            if condition:
+                sql = f"""
+                               SELECT * FROM lawyer_case_table WHERE {condition};    
+                           """
+                self.cursor.execute(sql, (f"%{search_value}%", f"%{search_value}%", f"%{search_value}%",))  # Correct parameter passing
+
+            else:
+                # If no search value is provided, select all rows from the "lawyer case" table and order by lawyer ID
+                sql = "SELECT * FROM lawyer_case_table ORDER BY lawyer_id ASC;"
                 # Execute the query without parameters
                 self.cursor.execute(sql)
 
