@@ -20,6 +20,8 @@ from ui.editClient import Ui_editClient
 from ui.addLawyerCase import Ui_addLawyerCase
 from ui.editLawyerCase import Ui_editLawyerCase
 
+from ui.addClientCase import Ui_addClientCase
+from ui.editClientCase import Ui_editClientCase
 
 
 class MainWindow(QMainWindow):
@@ -86,7 +88,7 @@ class MainWindow(QMainWindow):
         Initialization for lawyer case page
         """
 
-        self.addlawyercasebtn = self.ui.add_lawyercase_btn
+        self.addlawyercasebtn = self.ui.add_lawyercase_btn 
         self.deletelawyercasebtn = self.ui.delete_lawyer_case
         self.editlawyercasebtn = self.ui.edit_lawyer_case
         self.display_lawyer_case_info = self.ui.lawyer_case_display
@@ -121,6 +123,10 @@ class MainWindow(QMainWindow):
         self.addclientbtn.clicked.connect(self.open_addclient_dialog)
         self.deleteclientbtn.clicked.connect(self.delete_client_info)
         self.editclientbtn.clicked.connect(self.open_editclient_dialog)
+        self.addlawyercasebtn.clicked.connect(self.open_addlawyercase_dialog)
+        self.deletelawyercasebtn.clicked.connect(self.delete_lawyer_case_info)
+        self.editlawyercasebtn.clicked.connect(self.open_editlawyerCase_dialog)
+
 
     def open_addlawyer_dialog(self):
         # Opens the add lawyer page.
@@ -418,7 +424,6 @@ class MainWindow(QMainWindow):
             # Set the selection mode to single selection
             self.display_case_info.setSelectionMode(QAbstractItemView.SingleSelection)
 
-
     def delete_case_info(self):
         try:
             select_row = self.display_case_info.currentRow()
@@ -470,13 +475,13 @@ class MainWindow(QMainWindow):
                 QMessageBox.information(self, "No Row Selected", "Please select a row to edit lawyer case information.")
                 return
             # Fetch data from the selected row
-            lawyer_id = self.display_lawyer_case_info.item(selected_row, 0).text().strip()
-            case_id = self.display_lawyer_case_info.item(selected_row, 1).text().strip()
+            lawyer_name = self.display_lawyer_case_info.item(selected_row, 0).text().strip()
+            case_name = self.display_lawyer_case_info.item(selected_row, 1).text().strip()
             start_date = self.display_lawyer_case_info.item(selected_row, 2).text().strip()
             
             # Opens the edit case information page.
-            self.edit_lawyer_case_dialog = EditCaseDialog(parent=self, connectDB=self.db)
-            self.edit_lawyer_case_dialog.set_lawyer_case_data(lawyer_id, case_id, start_date)
+            self.edit_lawyer_case_dialog = EditLawyerCaseDialog(parent=self, connectDB=self.db)
+            self.edit_lawyer_case_dialog.set_lawyer_case_data(lawyer_name, case_name, start_date)
             self.edit_lawyer_case_dialog.accepted.connect(self.load_lawyer_case_info)
             self.edit_lawyer_case_dialog.exec_()
         except Exception as E:
@@ -513,7 +518,7 @@ class MainWindow(QMainWindow):
         self.display_lawyer_case_info.clearContents()
         self.display_lawyer_case_info.setRowCount(0)
         self.display_lawyer_case_info.verticalHeader().setVisible(False)
-        headers = ["Lawyer ID", "Case Name", "Start Date"]
+        headers = ["Lawyer Name", "Case Name", "Start Date"]
         # Set the horizontal header labels
         self.display_lawyer_case_info.setHorizontalHeaderLabels(headers)
         if lawyer_case_data:
@@ -791,7 +796,7 @@ class AddCaseDialog(QtWidgets.QDialog):
                 QMessageBox.warning(self, "Validation Result",
                                         "Name is blank or it contains numbers or special characters.")
                 return
-              #Format dates to string (e.g., 'dd-MM-yyyy')
+            #Format dates to string (e.g., 'dd-MM-yyyy')
             startDate_str = startDate.toString("MM-dd-yyyy")
             endDate_str = str(endDate)
 
@@ -1053,24 +1058,40 @@ class EditClientDialog(QtWidgets.QDialog):
 
 class AddLawyerCaseDialog(QtWidgets.QDialog):
     def __init__(self, parent, connectDB):
-        super(AddCaseDialog, self).__init__(parent)
+        super(AddLawyerCaseDialog, self).__init__(parent)
         self.setWindowTitle("Add Lawyer Case")
         # Initialize the Add Lawyer Case Dialog UI
         self.ui = Ui_addLawyerCase()
         self.ui.setupUi(self)
         self.connection = connectDB
+        self.populate_combo()
 
         # Initialize buttons in Add Lawyer Case dialog
-        self.ui.add_lawyer_case_info.clicked.connect(self.add_lawyer_case_action)
-        self.ui.add_lawyer_case_cancel.clicked.connect(self.close)
+        self.ui.add_info.clicked.connect(self.add_lawyer_case_action)
+        self.ui.add_info_cancel.clicked.connect(self.close)
 
+    def populate_combo(self):
+        try:
+            lawyer_names = self.connection.get_lawyer_names()
+            case_names = self.connection.get_case_names()
+            self.ui.assigned_lawyer_combo.clear()
+            self.ui.assigned_lawyer_combo.addItems(lawyer_names)
+            self.ui.case_name_combo.clear()
+            self.ui.case_name_combo.addItems(case_names)
+
+        except Exception as E:
+            print(str(E) + "line A")
+
+ 
     def add_lawyer_case_action(self):
         try:
             # Getting values of case information
             test_idnumber = self.ui.assigned_lawyer_combo.currentText() # Get lawyer ID
             test_idnumber2 = self.ui.case_name_combo.currentText()      # Get case ID
             start_date = self.ui.lawyer_start_date.date()               # Get start date input
-       
+            lawyer_id = self.connection.get_lawyer_id(test_idnumber)
+            case_id = self.connection.get_case_id(test_idnumber2)
+
             #Format start date to string 
             startDate_str = start_date.toString("MM-dd-yyyy")
 
@@ -1078,12 +1099,14 @@ class AddLawyerCaseDialog(QtWidgets.QDialog):
             reply = QMessageBox.question(self, 'Confirmation', 'Do you want to proceed with adding this information?',
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
             if reply == QMessageBox.Yes:
-            
-            # Add the information to the database
-                self.connection.add_lawyer_case_info(test_idnumber, test_idnumber2, startDate_str)
-                QMessageBox.information(self, "Add Lawyer Case Information Success.",
-                                        "A Lawyer Case information has been added to the system.")
-                self.accept()
+                result = self.connection.add_lawyer_case_info(lawyer_id, case_id, startDate_str)
+                if result is None:
+                    QMessageBox.information(self, "Add Lawyer Case Information Success",
+                                            "A Lawyer Case information has been added to the system.")
+                    self.accept()
+
+                else:
+                    QMessageBox.warning(self, "Error", f"Failed to add data: {result}")
             else:
                 QMessageBox.information(self, "Operation Cancelled", "Adding lawyer case information cancelled.")
         except Exception as E:
@@ -1101,27 +1124,40 @@ class EditLawyerCaseDialog(QtWidgets.QDialog):
         # Initialize the Edit Lawyer Case Dialog UI
         self.ui = Ui_editLawyerCase()
         self.ui.setupUi(self)
-        self.ui.edit_LawyerID
-        self.ui.edit_CaseID
+        self.connection = connectDB
+        self.populate_combo()
+        
 
         # Initialize buttons in Edit Lawyer Case dialog
-        self.ui.edit_lawyer_case_cancel_btn.clicked.connect(self.close)
-        self.ui.edit_lawyer_case_info.clicked.connect(self.edit_lawyer_case_data)
+        self.ui.edit_info_cancel.clicked.connect(self.close)
+        self.ui.edit_info.clicked.connect(self.edit_lawyer_case_data)
 
-        # Initialize connection to database
-        self.connection = connectDB
 
-    def set_lawyer_case_data(self, lawyer_id, case_id, start_date):
-        self.ui.edit_LawyerID.setCurrentText(lawyer_id)
-        self.ui.edit_CaseID.setCurrentText(case_id)
+    def populate_combo(self):
+        try:
+            lawyer_names = self.connection.get_lawyer_names()
+            case_names = self.connection.get_case_names()
+            self.ui.edit_assigned_lawyer_combo.clear()
+            self.ui.edit_assigned_lawyer_combo.addItems(lawyer_names)
+            self.ui.case_name_combo.clear()
+            self.ui.case_name_combo.addItems(case_names)
+
+        except Exception as E:
+            print(str(E) + "line A")
+
+    def set_lawyer_case_data(self, lawyer_name, case_name, start_date):
+        self.ui.edit_assigned_lawyer_combo.setCurrentText(lawyer_name)
+        self.ui.case_name_combo.setCurrentText(case_name)
         start_date_qdate = QDate.fromString(start_date, "MM-dd-yyyy")
-        self.ui.startDate_edit.setDate(start_date_qdate)
+        self.ui.edit_lawyer_start_date.setDate(start_date_qdate)
        
     def edit_lawyer_case_data(self):
         try:
-            lawyerID = self.ui.edit_CaseID.text().strip()
-            caseID = self.ui.edit_CaseType.currentText()
-            start_date = self.ui.edit_StartDate.date()
+            lawyerName = self.ui.edit_assigned_lawyer_combo.currentText()
+            caseName = self.ui.case_name_combo.currentText()
+            start_date = self.ui.edit_lawyer_start_date.date()
+            lawyer_id = self.connection.get_lawyer_id(lawyerName)
+            case_id = self.connection.get_case_id(caseName)
        
             startDate_str = start_date.toString("MM-dd-yyyy")
 
@@ -1130,12 +1166,55 @@ class EditLawyerCaseDialog(QtWidgets.QDialog):
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
             if reply == QMessageBox.Yes:
                 # Add the information to the database
-                self.connection.edit_lawyer_case_info(lawyerID, caseID, startDate_str)
+                result = self.connection.edit_lawyer_case_info(lawyer_id, case_id, startDate_str)
+                if result is None:
+                    QMessageBox.information(self, "Update edit information success.",
+                                            "Edit information has been edited to the system.")
+                    self.accept()
 
-                QMessageBox.information(self, "Update edit information success.",
-                                        "Edit information has been edited to the system.")
-                self.accept()
+                else:
+                    QMessageBox.warning(self, "Error", f"Failed to edit data: {result}")
             else:
                 QMessageBox.information(self, "Operation Cancelled", "Update edit information cancelled.")
         except Exception as E:
             print(str(E))
+
+
+"""
+    Class for Adding Client Case
+    """
+
+class AddClientCaseDialog(QtWidgets.QDialog):
+    def __init__(self, parent, connectDB):
+        super(AddClientCaseDialog, self).__init__(parent)
+        self.setWindowTitle("Add Client Case")
+        # Initialize the Add Client Case Dialog UI
+        self.ui = Ui_addClientCase()
+        self.ui.setupUi(self)
+        self.connection = connectDB
+
+        # Initialize buttons in Add Client Case dialog
+        self.ui.add_client_case_info.clicked.connect(self.add_client_case_action)
+        self.ui.add_client_case_cancel.clicked.connect(self.close)
+
+    def add_client_case_action(self):
+        try:
+            # Getting values of case information
+            test_idnumber = self.ui.client_name_combo.currentText()
+            test_idnumber2 = self.ui.client_case_combo.currentText()      
+       
+            # Finally add the information to the database
+            reply = QMessageBox.question(self, 'Confirmation', 'Do you want to proceed with adding this information?',
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+            
+            # Add the information to the database
+                self.connection.add_lawyer_case_info(test_idnumber, test_idnumber2)
+                QMessageBox.information(self, "Add Client Case Information Success.",
+                                        "A Client Case information has been added to the system.")
+                self.accept()
+            else:
+                QMessageBox.information(self, "Operation Cancelled", "Adding client case information cancelled.")
+        except Exception as E:
+            print(str(E))
+
