@@ -123,6 +123,95 @@ class ConnectDatabase:
             # Ensure the database connection is closed
             self.connect.close()
 
+        # Client
+    def client_id_exists(self, client_id):
+        # Checks whether ID exists in the database
+        self.connect_database()
+        query = "SELECT * FROM lawyer WHERE lawyerID = %s"
+        self.cursor.execute(query, (client_id,))
+        result = self.cursor.fetchone()
+        self.cursor.close()
+        return result is not None
+
+    def add_client_info(self, client_id, client_name, client_type, client_email, lawyer_name):
+        try:
+            self.connect_database()
+            query = """INSERT INTO client (clientID, clientName, clientType, clientEmail, lawyerName) 
+                           VALUES (%s, %s, %s, %s, %s);"""
+            self.cursor.execute(query, (client_id, client_name, client_type, client_email, lawyer_name))
+            self.connect.commit()
+            return None
+        except Exception as e:
+            self.connect.rollback()
+            return str(e)
+        finally:
+            self.connect.close()
+
+    def edit_client_info(self, client_id, client_name, client_type, client_email, lawyer_name):
+        try:
+            self.connect_database()
+            query = f"""UPDATE client
+                SET clientName = %s, clientType = %s, clientEmail = %s, lawyerID = %s
+                           WHERE clientID = %s;"""
+            self.cursor.execute(query, (client_name, client_type, client_email, lawyer_name, client_id))
+            self.connect.commit()
+            return None
+        except Exception as e:
+            self.connect.rollback()
+            return str(e)
+        finally:
+            self.connect.close()
+
+    def delete_client_info(self, client_id):
+        self.connect_database()
+        sql = "DELETE FROM client WHERE clientID = %s;"
+        try:
+            self.cursor.execute(sql, (client_id,))
+            self.connect.commit()
+        except Exception as E:
+            self.connect.rollback()
+            return E
+        finally:
+            self.connect.close()
+
+    def get_lawyer_names(self):
+        try:
+            self.connect_database()
+            query = "SELECT lawyerName FROM lawyer;"
+            self.cursor.execute(query)
+            lawyer_names = [row[0] for row in self.cursor.fetchall()]
+            return lawyer_names
+        except Exception as e:
+            print(str(e))
+            return []
+        finally:
+            self.connect.close()
+
+    def search_client_info(self, search_value=None):
+        try:
+            columns = ["clientID", "clientName", "clientType", "clientEmail",
+                           "lawyerName"]
+
+            if search_value:
+                condition = "clientID LIKE %s OR clientName LIKE %s OR clientType LIKE %s OR clientEmail LIKE %s OR clientLawyer LIKE %s"
+            else:
+                condition = None
+            if condition:
+                sql = f"""        
+                SELECT * FROM client WHERE {condition};
+                """
+                self.cursor.execute(sql, (
+                f"%{search_value}%", f"%{search_value}%", f"%{search_value}%", f"%{search_value}%",
+                f"%{search_value}%"))
+            else:
+                sql = "SELECT * FROM client ORDER BY clientID ASC;"
+                self.cursor.execute(sql)
+            rows = self.cursor.fetchall()
+            return rows
+        except Exception as E:
+            print(str(E))
+        finally:
+            self.connect.close()
 
 # case
     def case_id_exists(self, case_id):
