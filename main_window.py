@@ -14,6 +14,9 @@ from ui.editLawyer import Ui_editLawyer
 from ui.addCase import Ui_addCase
 from ui.editCase import Ui_editCase
 
+from ui.addClient import Ui_addClient
+from ui.editClient import Ui_editClient
+
 
 
 class MainWindow(QMainWindow):
@@ -66,27 +69,37 @@ class MainWindow(QMainWindow):
         self.search_case = self.ui.searchClient_2
         self.search_case.textChanged.connect(self.search_case_info)
 
-        #Initialize the buttons for each page
-        self.init_signal_slot()
+        """
+        Initialization for client page
+        """
+        self.addclientbtn = self.ui.addClient
+        self.deleteclientbtn = self.ui.deleteClient
+        self.editclientbtn = self.ui.editClient
+        self.display_client_info = self.ui.clientDisplay
+        self.search_client = self.ui.searchClient
+        self.search_client.textChanged.connect(self.search_client_info)
 
         # Load lawyer table
         self.load_lawyer_info()
-
         # Load case table
         self.load_case_info()
+        # Load client table
+        self.load_client_info()
 
-   
-
-
+        # Initialize the buttons for each page
+        self.init_signal_slot()
 
     def init_signal_slot(self):
-        #Initizalizes all buttons inside each page
+        # Initizalizes all buttons inside each page
         self.addlawyerbtn.clicked.connect(self.open_addlawyer_dialog)
         self.deletelawyerbtn.clicked.connect(self.delete_lawyer_info)
         self.editlawyerbtn.clicked.connect(self.open_editLawyer_dialog)
         self.addcasebtn.clicked.connect(self.open_addcase_dialog)
         self.deletecasebtn.clicked.connect(self.delete_case_info)
         self.editcasebtn.clicked.connect(self.open_editCase_dialog)
+        self.addclientbtn.clicked.connect(self.open_addclient_dialog)
+        self.deleteclientbtn.clicked.connect(self.delete_client_info)
+        self.editclientbtn.clicked.connect(self.open_editclient_dialog)
 
     def open_addlawyer_dialog(self):
         # Opens the add lawyer page.
@@ -117,7 +130,7 @@ class MainWindow(QMainWindow):
             self.edit_lawyer_dialog.exec_()
         except Exception as E:
             print(str(E))
-
+        self.load_client_info()
 
     def load_lawyer_info(self):
         self.db.connect_database()
@@ -176,7 +189,8 @@ class MainWindow(QMainWindow):
 
             # Ask for confirmation using a QMessageBox
             reply = QMessageBox.question(self, 'Delete Confirmation',
-                                         f"Are you sure you want to delete lawyer with ID: {lawyer_id}?",
+                                         f"Are you sure you want to delete lawyer with ID: {lawyer_id}? This will affect"
+                                         f"other tables in the system.",
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
             if reply == QMessageBox.Yes:
@@ -196,9 +210,117 @@ class MainWindow(QMainWindow):
         finally:
             # Reload the table after deleting.
             self.load_lawyer_info()
+            self.load_client_info()
             self.db.connect.close()  # Ensure database connection is closed
 
+        # Client
+    def open_addclient_dialog(self):
+        # Opens the add client page.
+        self.add_client_dialog = AddClientDialog(parent=self, connectDB=self.db)
+        self.add_client_dialog.accepted.connect(self.load_client_info)
+        self.add_client_dialog.exec_()
 
+    def open_editclient_dialog(self):
+        try:
+            selected_row = self.display_client_info.currentRow()
+            if selected_row == -1:
+                # If no row is selected, show a message box informing the user
+                QMessageBox.information(self, "No Row Selected", "Please select a row to edit client information.")
+                return
+            # Fetch data from the selected row
+            client_id = self.display_client_info.item(selected_row, 0).text().strip()
+            client_name = self.display_client_info.item(selected_row, 1).text().strip()
+            client_type = self.display_client_info.item(selected_row, 2).text().strip()
+            client_email = self.display_client_info.item(selected_row, 3).text().strip()
+            lawyer_name = self.display_client_info.item(selected_row, 4).text().strip()
+
+            # Opens the edit client information page.
+            self.edit_client_dialog = EditClientDialog(parent=self, connectDB=self.db)
+            self.edit_client_dialog.set_client_data(client_id, client_name, client_type, client_email,
+                                                        lawyer_name)
+            self.edit_client_dialog.accepted.connect(self.load_client_info)
+            self.edit_client_dialog.exec_()
+        except Exception as E:
+            print(str(E))
+
+    def load_client_info(self):
+        self.db.connect_database()
+        try:
+            # Fetch all client info from the database
+            client_data = self.db.search_client_info()
+            # Display client data in the table widget
+            self.display_client_data(client_data)
+        except Exception as E:
+            print("Error:", E)
+        finally:
+            # Close the database connection
+            self.db.connect.close()
+
+    def search_client_info(self):
+        # Search client information
+        self.db.connect_database()
+        try:
+            search_value = self.search_client.text().strip()
+            search_results = self.db.search_client_info(search_value)
+            self.display_client_data(search_results)
+        except Exception as E:
+            print(str(E))
+
+    def display_client_data(self, client_data):
+        # Clear exisiting table contents
+        self.display_client_info.clearContents()
+        self.display_client_info.setRowCount(0)
+        self.display_client_info.verticalHeader().setVisible(False)
+        headers = ["Client ID", "Name", "Type", "E-Mail", "Assigned Lawyer"]
+        # Set the horizontal header labels
+        self.display_client_info.setHorizontalHeaderLabels(headers)
+        if client_data:
+            # Set the number of rows and columns based on the data
+            self.display_client_info.setRowCount(len(client_data))
+            self.display_client_info.setColumnCount(len(headers))
+
+            # Populate the tablewidget with data
+            for row_num, row_data in enumerate(client_data):
+                for col_num, col_data in enumerate(row_data):
+                    value = row_data[col_data]
+                    self.display_client_info.setItem(row_num, col_num, QTableWidgetItem(str(value)))
+            # Set the selection mode to single selection
+            self.display_client_info.setSelectionMode(QAbstractItemView.SingleSelection)
+
+    def delete_client_info(self):
+        try:
+            select_row = self.display_client_info.currentRow()
+            if select_row == -1:
+                # If no row is selected, show a message box informing the user
+                QMessageBox.information(self, "No Row Selected", "Please select a row to delete.")
+                return
+
+            # If a row is selected, get the Client ID for confirmation
+            client_id = self.display_client_info.item(select_row, 0).text().strip()
+
+            # Ask for confirmation using a QMessageBox
+            reply = QMessageBox.question(self, 'Delete Confirmation',
+                                             f"Are you sure you want to delete client with ID: {client_id}?",
+                                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+            if reply == QMessageBox.Yes:
+                # User confirmed deletion, proceed with deletion
+                self.db.connect_database()  # Ensure database connection is open
+                self.db.delete_client_info(client_id)  # Call a method in your database handler to delete
+
+                # Optionally, you may want to remove the row from the table widget
+                self.display_client_info.removeRow(select_row)
+
+                # Inform the user with a QMessageBox
+                QMessageBox.information(self, "Deletion Successful", f"Deleted client with ID: {client_id}")
+
+        except Exception as E:
+            print("Error deleting client:", str(E))
+
+        finally:
+            # Reload the table after deleting.
+            self.load_client_info()
+            self.db.connect.close()  # Ensure database connection is closed
 
     # Case
     def open_addcase_dialog(self):
@@ -231,7 +353,6 @@ class MainWindow(QMainWindow):
         except Exception as E:
             print(str(E))
 
-
     def load_case_info(self):
         self.db.connect_database()
         try:
@@ -245,7 +366,6 @@ class MainWindow(QMainWindow):
             # Close the database connection
             self.db.connect.close()
 
-
     def search_case_info(self):
         # Search lawyer information
         self.db.connect_database()
@@ -255,7 +375,6 @@ class MainWindow(QMainWindow):
             self.display_case_data(search_results)
         except Exception as E:
             print(str(E))
-
 
     def display_case_data(self, case_data):
         # Clear exisiting table contents
@@ -311,7 +430,7 @@ class MainWindow(QMainWindow):
 
         finally:
             # Reload the table after deleting.
-            self.load_lawyer_info()
+            self.load_case_info()
             self.db.connect.close()  # Ensure database connection is closed
 
 
@@ -630,5 +749,169 @@ class EditCaseDialog(QtWidgets.QDialog):
                 QMessageBox.information(self, "Operation Cancelled", "Update edit information cancelled.")
         except Exception as E:
             print(str(E))
+
+
+"""
+   Class for Adding Client
+   """
+
+
+class AddClientDialog(QtWidgets.QDialog):
+    try:
+        def __init__(self, parent, connectDB):
+            super(AddClientDialog, self).__init__(parent)
+            self.setWindowTitle("Add Client")
+            # Initialize the Add Client Dialog UI
+            self.ui = Ui_addClient()
+            self.ui.setupUi(self)
+            self.connection = connectDB
+
+            self.populate_lawyer_combo()
+
+            # Initialize buttons in add client dialog
+            self.ui.add_client_info.clicked.connect(self.add_client_action)
+            self.ui.add_lawyer_cancel_2.clicked.connect(self.close)
+
+        def populate_lawyer_combo(self):
+            try:
+                lawyer_names = self.connection.get_lawyer_names()
+                self.ui.assignedLawyerCombo.clear()
+                self.ui.assignedLawyerCombo.addItems(lawyer_names)
+            except Exception as E:
+                print(str(E) + "line A")
+
+        def add_client_action(self):
+            try:
+                # Getting values of client information
+                test_idnumber = self.ui.clientIDinput.text().strip()
+                test_name = self.ui.clientNameinput.text().strip()
+                client_type = self.ui.clientTypeCombo.currentText()
+                client_lawyer = self.ui.assignedLawyerCombo.currentText()
+                test_email = self.ui.clientEmail.text().strip()
+
+                # Check if ID Number format is correct
+                if len(test_idnumber) == 5 and sum(1 for c in test_idnumber if c.isdigit()) == 4 and any(
+                        c.isupper() for c in test_idnumber):
+                    idnumber = self.ui.clientIDinput.text().strip()
+                else:
+                    QMessageBox.warning(self, "Validation Result", "ID number format is invalid.")
+                    return
+
+                try:
+                    # Check if ID number already exists in the database
+                    if self.connection.client_id_exists(idnumber):
+                        QMessageBox.warning(self, "Validation Result", "ID number already exists in the database.")
+                        return
+                except Exception as E:
+                    print(str(E))
+
+                # Check if name only consists of letters and is not blank
+                if re.match(r"^[A-Za-z\s]+$", test_name) and test_name != "":
+                    name = self.ui.clientNameinput.text().strip()
+                else:
+                    QMessageBox.warning(self, "Validation Result",
+                                        "Name is blank or it contains numbers or special characters.")
+                    return
+
+                    # Check if email is valid
+                if re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", test_email) and test_email != "":
+                    email = self.ui.clientEmail.text().strip()
+                else:
+                    QMessageBox.warning(self, "Validation Result", "E-Mail is not valid. Please try again.")
+                    return
+
+                # Finally add the information to the database
+                reply = QMessageBox.question(self, 'Confirmation', 'Do you want to proceed with adding this information?',
+                                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                if reply == QMessageBox.Yes:
+                    # Add the information to the database
+                    self.connection.add_client_info(idnumber, name, client_type, email, client_lawyer)
+                    QMessageBox.information(self, "Add Client Information Success",
+                                            "Client information has been added to the system.")
+                    self.accept()
+                else:
+                    QMessageBox.information(self, "Operation Cancelled", "Adding client information cancelled.")
+            except Exception as E:
+                print(str(E) + "line B")
+    except Exception as E:
+        print(str(E) + "line C")
+
+
+"""
+    Class for Editing Client
+    """
+
+
+class EditClientDialog(QtWidgets.QDialog):
+    try:
+        def __init__(self, parent, connectDB):
+            super(EditClientDialog, self).__init__(parent)
+            self.setWindowTitle("Edit Client Information")
+            # Initialize the Add Student Dialog UI
+            self.ui = Ui_editClient()
+            self.ui.setupUi(self)
+            self.ui.clientIDinput_edit.setEnabled(False)
+            # Initialize buttons in add lawyer dialog
+            self.ui.edit_lawyer_cancel.clicked.connect(self.close)
+            self.ui.edit_client_info.clicked.connect(self.edit_client_data)
+
+            # Initialize connection to database
+            self.connection = connectDB
+            self.populate_lawyer_combo()
+
+        def populate_lawyer_combo(self):
+            lawyer_names = self.connection.get_lawyer_names()
+            self.ui.assignedLawyerCombo_edit.clear()
+            self.ui.assignedLawyerCombo_edit.addItems(lawyer_names)
+
+        def set_client_data(self, client_id, client_name, client_type, client_email, lawyer_name):
+            self.ui.clientIDinput_edit.setText(client_id)
+            self.ui.clientNameinput_edit.setText(client_name)
+            self.ui.clientTypeCombo_edit.setCurrentText(client_type)
+            self.ui.assignedLawyerCombo_edit.setCurrentText(lawyer_name)
+            self.ui.clientEmail_edit.setText(client_email)
+
+        def edit_client_data(self):
+            idnumber = self.ui.clientIDinput_edit.text().strip()
+            name = self.ui.clientNameinput_edit.text().strip()
+            client_type = self.ui.clientTypeCombo_edit.currentText()
+            lawyer_name = self.ui.assignedLawyerCombo_edit.currentText()  # Get lawyer name from UI
+            test_email = self.ui.clientEmail_edit.text().strip()
+
+
+            # Check if name only consists of letters and is not blank
+            if re.match(r"^[A-Za-z\s]+$", name) and name != "":
+                name = self.ui.clientNameinput_edit.text().strip()
+            else:
+                QMessageBox.warning(self, "Validation Result",
+                                    "Name is blank or it contains numbers or special characters.")
+                return
+
+            # Check if email is valid
+            if re.match(r"[^@]+@[^@]+\.[^@]+", test_email) and test_email != "":
+                client_email = self.ui.clientEmail_edit.text().strip()
+            else:
+                QMessageBox.warning(self, "Validation Result", "E-Mail is not valid. Please try again.")
+                return
+
+            # Confirmation prompt before editing
+            reply = QMessageBox.question(self, 'Confirmation', 'Do you want to proceed with editing this information?',
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                # Edit information in the database
+                if self.connection.edit_client_info(idnumber, name, client_type, client_email,
+                                                    lawyer_name):  # Check for successful edit
+                    QMessageBox.information(self, "Update Client Information Success.",
+                                            "Client information has been edited to the system.")
+                    print(idnumber, name, client_type, lawyer_name,
+                                                    client_email)
+                else:
+                    QMessageBox.warning(self, "Update Failed", "An error occurred while updating client information.")
+                self.accept()
+            else:
+                QMessageBox.information(self, "Operation Cancelled", "Update client information cancelled.")
+
+    except Exception as E:
+        print(str(E) + "ERROR")
 
          

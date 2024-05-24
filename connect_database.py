@@ -136,7 +136,7 @@ class ConnectDatabase:
     def add_client_info(self, client_id, client_name, client_type, client_email, lawyer_name):
         try:
             self.connect_database()
-            query = """INSERT INTO client_table (clientID, clientName, clientType, clientEmail, lawyerName) 
+            query = """INSERT INTO client_table (clientID, clientName, clientType, clientEmail, clientLawyer) 
                            VALUES (%s, %s, %s, %s, %s);"""
             self.cursor.execute(query, (client_id, client_name, client_type, client_email, lawyer_name))
             self.connect.commit()
@@ -150,14 +150,15 @@ class ConnectDatabase:
     def edit_client_info(self, client_id, client_name, client_type, client_email, lawyer_name):
         try:
             self.connect_database()
-            query = f"""UPDATE client_table
-                SET clientName = %s, clientType = %s, clientEmail = %s, lawyerID = %s
-                           WHERE clientID = %s;"""
+            query = """UPDATE client_table
+                       SET clientName = %s, clientType = %s, clientEmail = %s, clientLawyer = %s
+                       WHERE clientID = %s;"""
             self.cursor.execute(query, (client_name, client_type, client_email, lawyer_name, client_id))
             self.connect.commit()
             return None
         except Exception as e:
             self.connect.rollback()
+            print(f"Error updating client info: {e}")
             return str(e)
         finally:
             self.connect.close()
@@ -179,7 +180,7 @@ class ConnectDatabase:
             self.connect_database()
             query = "SELECT lawyerName FROM lawyer_table;"
             self.cursor.execute(query)
-            lawyer_names = [row[0] for row in self.cursor.fetchall()]
+            lawyer_names = [row['lawyerName'] for row in self.cursor.fetchall()]
             return lawyer_names
         except Exception as e:
             print(str(e))
