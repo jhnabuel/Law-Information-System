@@ -270,7 +270,7 @@ class Ui_MainWindow(object):
         self.lawyerDisplay.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
         self.lawyerDisplay.setHorizontalHeaderItem(5, item)
-        self.lawyerDisplay.horizontalHeader().setVisible(True)
+        self.lawyerDisplay.horizontalHeader().setVisible(False)
         self.lawyerDisplay.horizontalHeader().setCascadingSectionResizes(False)
         self.lawyerDisplay.horizontalHeader().setDefaultSectionSize(150)
         self.lawyerDisplay.horizontalHeader().setSortIndicatorShown(True)
@@ -707,7 +707,7 @@ class Ui_MainWindow(object):
         self.client_case_display.setItem(0, 0, item)
         item = QtWidgets.QTableWidgetItem()
         self.client_case_display.setItem(0, 1, item)
-        self.client_case_display.horizontalHeader().setVisible(False)
+        self.client_case_display.horizontalHeader().setVisible(True)
         self.client_case_display.horizontalHeader().setCascadingSectionResizes(False)
         self.client_case_display.horizontalHeader().setDefaultSectionSize(250)
         self.client_case_display.horizontalHeader().setSortIndicatorShown(True)
@@ -739,7 +739,7 @@ class Ui_MainWindow(object):
         self.lawyer_case_display.setItem(0, 1, item)
         item = QtWidgets.QTableWidgetItem()
         self.lawyer_case_display.setItem(0, 2, item)
-        self.lawyer_case_display.horizontalHeader().setVisible(False)
+        self.lawyer_case_display.horizontalHeader().setVisible(True)
         self.lawyer_case_display.horizontalHeader().setCascadingSectionResizes(False)
         self.lawyer_case_display.horizontalHeader().setDefaultSectionSize(160)
         self.lawyer_case_display.horizontalHeader().setSortIndicatorShown(True)
@@ -954,7 +954,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.functionWidget.setCurrentIndex(0)
+        self.functionWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
