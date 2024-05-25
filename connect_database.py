@@ -403,46 +403,42 @@ class ConnectDatabase:
             self.connect.close()
 
 
-    def delete_lawyer_case_info(self, lawyer_id):
+    def delete_lawyer_case_info(self, lawyer_id, case_id):
         self.connect_database()
-        # Construct SQL query for deleting lawyer case info
-        sql = "DELETE FROM lawyer_case_table WHERE lawyer_id = %s;"
+        # Construct SQL query for deleting a specific row by unique identifier
+        sql = "DELETE FROM lawyer_case_table WHERE lawyer_id = %s AND case_id = %s;"
         try:
             # Execute the SQL query for deleting lawyer case info
-            self.cursor.execute(sql, (lawyer_id,))
+            self.cursor.execute(sql, (lawyer_id, case_id))
             self.connect.commit()
+            return None
         except Exception as E:
             # Rollback the operation in a lawyer case of an error
             self.connect.rollback()
-            return E
+            return str(E)
         finally:
             # Close the database connection
             self.connect.close()
 
 
-    def edit_lawyer_case_info(self, lawyer_id, case_id, start_date):
+    def edit_lawyer_case_info(self, old_lawyer_id, new_lawyer_id, case_id, start_date):
         try:
-            # Connect to database
             self.connect_database()
-            # Prepare the SQL query with placeholders
-            query = """UPDATE lawyer_case_table
-                       SET lawyer_id = %s, case_id = %s, start_date = %s;
-                       WHERE lawyer_id = %s;
-                    """
-            
-            # Execute the SQL query with the provided parameters
-            self.cursor.execute(query, (lawyer_id, case_id, start_date, lawyer_id))
-            # Commit the transaction to save the changes
+            # Update the lawyer_case_table with the new information
+            query = """
+                UPDATE lawyer_case_table
+                SET lawyer_id = %s, case_id = %s, start_date = %s
+                WHERE lawyer_id = %s AND case_id = %s;
+            """
+            self.cursor.execute(query, (new_lawyer_id, case_id, start_date, old_lawyer_id, case_id))
             self.connect.commit()
             return None  # Return None to indicate success
-            
         except Exception as e:
-            # Rollback the transaction and return the error message
             self.connect.rollback()
             return str(e)
         finally:
-            # Close the database connection
             self.connect.close()
+
 
 
     def search_lawyer_case_info(self, search_value=None):
