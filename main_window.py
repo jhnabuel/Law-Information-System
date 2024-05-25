@@ -95,6 +95,15 @@ class MainWindow(QMainWindow):
         self.search_lawyer_case = self.ui.search_lawyer_case
         self.search_lawyer_case.textChanged.connect(self.search_lawyer_case_info)
 
+        """
+        Initialization for client case page
+        """
+        self.addclientcasebtn = self.ui.add_clientcase_btn
+        self.deleteclientcasebtn = self.ui.client_case_delete
+        self.editclientcasebtn = self.ui.client_case_edit
+        self.display_client_case_info = self.ui.client_case_display
+        self.search_client_case = self.ui.search_client_case
+        self.search_client_case.textChanged.connect(self.search_client_case_info)
 
         # Load lawyer table
         self.load_lawyer_info()
@@ -107,6 +116,9 @@ class MainWindow(QMainWindow):
 
         # Load lawyer case table
         self.load_lawyer_case_info()
+
+        # Load client case table
+        self.load_client_case_info()
 
         # Initialize the buttons for each page
         self.init_signal_slot()
@@ -126,6 +138,9 @@ class MainWindow(QMainWindow):
         self.addlawyercasebtn.clicked.connect(self.open_addlawyercase_dialog)
         self.deletelawyercasebtn.clicked.connect(self.delete_lawyer_case_info)
         self.editlawyercasebtn.clicked.connect(self.open_editlawyerCase_dialog)
+        self.addclientcasebtn.clicked.connect(self.open_addclientcase_dialog)
+        self.deleteclientcasebtn.clicked.connect(self.delete_client_case_info)
+        self.editclientcasebtn.clicked.connect(self.open_editclientCase_dialog)
 
 
     def open_addlawyer_dialog(self):
@@ -238,6 +253,7 @@ class MainWindow(QMainWindow):
             # Reload the table after deleting.
             self.load_lawyer_info()
             self.load_client_info()
+            self.load_lawyer_case_info()
             self.db.connect.close()  # Ensure database connection is closed
 
 # Client
@@ -577,6 +593,132 @@ class MainWindow(QMainWindow):
                 if result is None:
                     self.load_lawyer_case_info()
                     QMessageBox.information(self, "Deletion Successful", f"Deleted the case for the assigned lawyer: {lawyer_name}")
+                else:
+                    QMessageBox.warning(self, "Deletion Failed", f"Failed to delete the case: {result}")
+
+        except Exception as E:
+                print("Error deleting lawyer case:", str(E))
+                # Inform the user with a QMessageBox
+                #QMessageBox.information(self, "Deletion Successful", f"Deleted a case with an Assigned Lawyer: {lawyer_name}")
+
+        finally:
+            # Reload the table after deleting.
+            self.db.connect.close()  # Ensure database connection is closed
+
+    # Client Case
+    def open_addclientcase_dialog(self):
+        # Opens the add lawyer page.
+        self.add_client_case_dialog = AddClientCaseDialog(parent=self, connectDB=self.db)
+        self.add_client_case_dialog.accepted.connect(self.load_client_case_info)
+        self.add_client_case_dialog.exec_()
+
+    def open_editclientCase_dialog(self):
+        try:
+            selected_row = self.display_client_case_info.currentRow()
+            if selected_row == -1:
+                # If no row is selected, show a message box informing the user
+                QMessageBox.information(self, "No Row Selected", "Please select a row to edit client case information.")
+                return
+            # Fetch data from the selected row
+            old_client_name = self.display_client_case_info.item(selected_row, 0).text().strip()
+            case_name = self.display_client_case_info.item(selected_row, 1).text().strip()
+            
+             # Fetch the old lawyer ID
+            old_client_id = self.db.get_client_id(old_client_name)
+            if not old_client_id:
+                QMessageBox.warning(self, "Error", "Failed to fetch the old client ID.")
+                return
+
+            # Opens the edit case information page.
+            self.edit_client_case_dialog = EditClientCaseDialog(parent=self, connectDB=self.db)
+            self.edit_client_case_dialog.set_client_case_data(old_client_name, case_name)
+            self.edit_client_case_dialog.old_client_id = old_client_id
+            self.edit_client_case_dialog.accepted.connect(self.load_client_case_info)
+            self.edit_client_case_dialog.exec_()
+        except Exception as E:
+            print(str(E))
+
+
+    def load_client_case_info(self):
+        self.db.connect_database()
+        try:
+            # Fetch all case info from the database
+            client_case_data = self.db.search_client_case_info()
+            # Display case data in the table widget
+            self.display_client_case_data(client_case_data)
+        except Exception as E:
+            print("Error:", E)
+        finally:
+            # Close the database connection
+            self.db.connect.close()
+
+
+    def search_client_case_info(self):
+        # Search lawyer information
+        self.db.connect_database()
+        try:
+            search_value = self.search_client_case.text().strip()
+            search_results = self.db.search_client_case_info(search_value)
+            self.display_client_case_data(search_results)
+        except Exception as E:
+            print(str(E))
+
+
+    def display_client_case_data(self, client_case_data):
+        # Clear exisiting table contents
+        self.display_client_case_info.clearContents()
+        self.display_client_case_info.setRowCount(0)
+        self.display_client_case_info.verticalHeader().setVisible(False)
+        headers = ["Client Name", "Case Name"]
+        # Set the horizontal header labels
+        self.display_client_case_info.setHorizontalHeaderLabels(headers)
+        if client_case_data:
+            # Set the number of rows and columns based on the data
+            self.display_client_case_info.setRowCount(len(client_case_data))
+            self.display_client_case_info.setColumnCount(len(headers))
+
+            # Populate the tablewidget with data
+            for row_num, row_data in enumerate(client_case_data):
+                for col_num, col_data in enumerate(row_data):
+                    value = row_data[col_data]
+                    self.display_client_case_info.setItem(row_num, col_num, QTableWidgetItem(str(value)))
+            # Set the selection mode to single selection
+            self.display_client_case_info.setSelectionMode(QAbstractItemView.SingleSelection)
+
+
+    def delete_client_case_info(self):
+        try:
+            self.db.connect_database() 
+            selected_row = self.display_client_case_info.currentRow()
+            if selected_row == -1:
+                # If no row is selected, show a message box informing the user
+                QMessageBox.information(self, "No Row Selected", "Please select a row to delete.")
+                return
+
+            # If a row is selected, get the lawyer_ ID for confirmation
+            #lawyer_name = self.display_lawyer_case_info.item(select_row, 0).text().strip()
+            #lawyer_id_to_delete = self.db.get_lawyer_id(lawyer_name)
+
+        
+            client_name = self.display_client_case_info.item(selected_row, 0).text().strip()
+            case_name = self.display_client_case_info.item(selected_row, 1).text().strip()
+
+            client_id_to_delete = self.db.get_client_id(client_name)
+            case_id_to_delete = self.db.get_case_id(case_name)
+
+            # Ask for confirmation using a QMessageBox
+            reply = QMessageBox.question(self, 'Delete Confirmation',
+                                         f"Are you sure you want to delete a case with an Client: {client_name}?",
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+            if reply == QMessageBox.Yes:
+                #print(str(lawyer_id_to_delete))
+                # User confirmed deletion, proceed with deletion
+                result = self.db.delete_client_case_info(client_id_to_delete, case_id_to_delete)  # Call a method in your database handler to delete
+
+                if result is None:
+                    self.load_client_case_info()
+                    QMessageBox.information(self, "Deletion Successful", f"Deleted the case for the client: {client_name}")
                 else:
                     QMessageBox.warning(self, "Deletion Failed", f"Failed to delete the case: {result}")
 
@@ -1209,16 +1351,29 @@ class AddClientCaseDialog(QtWidgets.QDialog):
         self.ui = Ui_addClientCase()
         self.ui.setupUi(self)
         self.connection = connectDB
-
+        self.populate_combo()
         # Initialize buttons in Add Client Case dialog
-        self.ui.add_client_case_info.clicked.connect(self.add_client_case_action)
-        self.ui.add_client_case_cancel.clicked.connect(self.close)
+        self.ui.add_client_Case.clicked.connect(self.add_client_case_action)
+        self.ui.add_info_cancel.clicked.connect(self.close)
+
+    def populate_combo(self):
+        try:
+            client_names = self.connection.get_client_names()
+            case_names = self.connection.get_case_names()
+            self.ui.client_name_combo.clear()
+            self.ui.client_name_combo.addItems(client_names)
+            self.ui.client_case_combo.clear()
+            self.ui.client_case_combo.addItems(case_names)
+        except Exception as E:
+            print(str(E) + "line A")
 
     def add_client_case_action(self):
         try:
-            # Getting values of case information
-            test_idnumber = self.ui.client_name_combo.currentText()
-            test_idnumber2 = self.ui.client_case_combo.currentText()      
+            test_idnumber = self.ui.client_name_combo.currentText() 
+            test_idnumber2 = self.ui.client_case_combo.currentText()      # Get case ID
+            client_id = self.connection.get_client_id(test_idnumber)
+            case_id = self.connection.get_case_id(test_idnumber2)
+
        
             # Finally add the information to the database
             reply = QMessageBox.question(self, 'Confirmation', 'Do you want to proceed with adding this information?',
@@ -1226,7 +1381,7 @@ class AddClientCaseDialog(QtWidgets.QDialog):
             if reply == QMessageBox.Yes:
             
             # Add the information to the database
-                self.connection.add_lawyer_case_info(test_idnumber, test_idnumber2)
+                self.connection.add_client_case_info(client_id, case_id)
                 QMessageBox.information(self, "Add Client Case Information Success.",
                                         "A Client Case information has been added to the system.")
                 self.accept()
@@ -1235,3 +1390,62 @@ class AddClientCaseDialog(QtWidgets.QDialog):
         except Exception as E:
             print(str(E))
 
+"""
+    Class for Editing Client Case
+    """
+
+class EditClientCaseDialog(QtWidgets.QDialog):
+    def __init__(self, parent, connectDB):
+        super(EditClientCaseDialog, self).__init__(parent)
+        self.setWindowTitle("Edit Client Case Information")
+        self.ui = Ui_editClientCase()
+        self.ui.setupUi(self)
+        self.connection = connectDB
+        self.populate_combo()
+        self.old_client_id = None  # Add this line to store the old lawyer ID
+
+        self.ui.edit_info_cancel.clicked.connect(self.close)
+        self.ui.edit_client_case.clicked.connect(self.edit_client_case_data)
+
+    def populate_combo(self):
+        try:
+            client_names = self.connection.get_client_names()
+            case_names = self.connection.get_case_names()
+            self.ui.edit_client_combo.clear()
+            self.ui.edit_client_combo.addItems(client_names)
+            self.ui.edit_case_combo.clear()
+            self.ui.edit_case_combo.addItems(case_names)
+        except Exception as E:
+            print(str(E) + "line A")
+
+    def set_client_case_data(self, client_name, case_name):
+        self.ui.edit_client_combo.setCurrentText(client_name)
+        self.ui.edit_case_combo.setCurrentText(case_name)
+    
+
+    def edit_client_case_data(self):
+        try:
+            clientName = self.ui.edit_client_combo.currentText()
+            caseName = self.ui.edit_case_combo.currentText()
+            new_client_id = self.connection.get_client_id(clientName)
+            case_id = self.connection.get_case_id(caseName)
+
+            if self.old_client_id is None:
+                QMessageBox.warning(self, "Error", "Old client ID is missing.")
+                return
+
+            reply = QMessageBox.question(self, 'Confirmation', 'Do you want to proceed with editing this information?',
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                # Perform the edit operation
+                result = self.connection.edit_client_case_info(self.old_client_id, new_client_id, case_id,)
+                if result is None:
+                    QMessageBox.information(self, "Update edit information success.",
+                                            "Edit information has been updated in the system.")
+                    self.accept()
+                else:
+                    QMessageBox.warning(self, "Error", f"Duplicate entry of client and case name.")
+            else:
+                QMessageBox.information(self, "Operation Cancelled", "Update edit information cancelled.")
+        except Exception as E:
+            print(str(E))
