@@ -453,7 +453,7 @@ class ConnectDatabase:
             self.connect.close()
 
 
-    def edit_lawyer_case_info(self, old_lawyer_id, new_lawyer_id, case_id, start_date):
+    def edit_lawyer_case_info(self, old_lawyer_id, new_lawyer_id, case_id, old_case_id, start_date):
         try:
             self.connect_database()
             # Update the lawyer_case_table with the new information
@@ -462,7 +462,7 @@ class ConnectDatabase:
                 SET lawyer_id = %s, case_id = %s, start_date = %s
                 WHERE lawyer_id = %s AND case_id = %s;
             """
-            self.cursor.execute(query, (new_lawyer_id, case_id, start_date, old_lawyer_id, case_id))
+            self.cursor.execute(query, (new_lawyer_id, case_id, start_date, old_lawyer_id, old_case_id))
             self.connect.commit()
             return None  # Return None to indicate success
         except Exception as e:
@@ -560,7 +560,7 @@ class ConnectDatabase:
             self.connect.close()
 
 
-    def edit_client_case_info(self, old_client_id, new_client_id, case_id):
+    def edit_client_case_info(self, old_client_id, new_client_id, case_id, old_case_id):
         try:
             self.connect_database()
             # Update the lawyer_case_table with the new information
@@ -569,7 +569,7 @@ class ConnectDatabase:
                 SET client_id = %s, case_id = %s
                 WHERE client_id = %s AND case_id = %s;
             """
-            self.cursor.execute(query, (new_client_id, case_id, old_client_id, case_id))
+            self.cursor.execute(query, (new_client_id, case_id, old_client_id, old_case_id))
             self.connect.commit()
             return None  # Return None to indicate success
         except Exception as e:
