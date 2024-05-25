@@ -201,7 +201,20 @@ class ConnectDatabase:
             return []
         finally:
             self.connect.close()
-
+            
+    def get_client_names(self):
+        try:
+            self.connect_database()
+            query = "SELECT clientName FROM client_table;"
+            self.cursor.execute(query)
+            client_names = [row['clientName'] for row in self.cursor.fetchall()]
+            return client_names
+        except Exception as e:
+            print(str(e))
+            return []
+        finally:
+            self.connect.close()
+        
 
     def search_client_info(self, search_value=None):
         try:
@@ -379,6 +392,25 @@ class ConnectDatabase:
         finally:
             self.connect.close()
 
+    def get_client_id(self, client_name):
+        try:
+            self.connect_database()
+            sql = """
+                    SELECT clientID FROM client_table WHERE clientName = %s;
+                """
+            self.cursor.execute(sql, (client_name,))            
+            client_ID = self.cursor.fetchone()
+            if client_ID:
+                return client_ID['clientID']  # Return the ID if it exists
+            else:
+                return None  # Return None if no ID found
+
+        except Exception as e:
+            print(str(e))
+            return None  # Return None in case of any exception
+        finally:
+            self.connect.close()
+
 
     def add_lawyer_case_info(self, lawyer_id, case_id, start_date):
         try:
@@ -470,6 +502,113 @@ class ConnectDatabase:
                         FROM lawyer_case_table 
                         JOIN lawyer_table ON lawyer_case_table.lawyer_id = lawyer_table.lawyerID 
                         JOIN case_table ON lawyer_case_table.case_id = case_table.case_id; "
+                    """
+                # Execute the query without parameters
+                self.cursor.execute(sql)
+
+            # Fetch all the rows resulting from the query
+            rows = self.cursor.fetchall()
+            # Return the fetched rows
+            return rows
+
+        except Exception as E:
+            # Print any exception that occurs
+            print(str(E))
+
+        finally:
+            # Ensure the database connection is closed
+            self.connect.close()
+    
+    def add_client_case_info(self, client_id, case_id):
+        try:
+            # Connect to database
+            self.connect_database()
+            # Prepare the SQL query with placeholders
+            query = """INSERT INTO client_case_table (client_id, case_id) 
+                       VALUES (%s, %s);"""
+            
+            # Execute the SQL query with the provided parameters
+            self.cursor.execute(query, (client_id, case_id))
+            # Commit the transaction to save the changes
+            self.connect.commit()
+            return None  # Return None to indicate success
+        
+        except Exception as e:
+            # Rollback the transaction and return the error message
+            self.connect.rollback()
+            return str(e)
+        finally:
+            # Close the database connection
+            self.connect.close()
+
+
+    def delete_client_case_info(self, client_id, case_id):
+        self.connect_database()
+        # Construct SQL query for deleting a specific row by unique identifier
+        sql = "DELETE FROM client_case_table WHERE client_id = %s AND case_id = %s;"
+        try:
+            # Execute the SQL query for deleting lawyer case info
+            self.cursor.execute(sql, (client_id, case_id))
+            self.connect.commit()
+            return None
+        except Exception as E:
+            # Rollback the operation in a lawyer case of an error
+            self.connect.rollback()
+            return str(E)
+        finally:
+            # Close the database connection
+            self.connect.close()
+
+
+    def edit_client_case_info(self, old_client_id, new_client_id, case_id):
+        try:
+            self.connect_database()
+            # Update the lawyer_case_table with the new information
+            query = """
+                UPDATE client_case_table
+                SET client_id = %s, case_id = %s
+                WHERE client_id = %s AND case_id = %s;
+            """
+            self.cursor.execute(query, (new_client_id, case_id, old_client_id, case_id))
+            self.connect.commit()
+            return None  # Return None to indicate success
+        except Exception as e:
+            self.connect.rollback()
+            return str(e)
+        finally:
+            self.connect.close()
+
+
+
+    def search_client_case_info(self, search_value=None):
+        try:
+            # Define the columns to search in the "case" table
+            columns = ["client_id", "case_id"]
+
+            if search_value:
+                # Create the search condition by joining each column with an
+                # OR condition and using placeholders for the parameters
+                condition = "client_id LIKE %s OR case_id LIKE %s" 
+                # Form the SQL query to select all rows from the "case" table
+            else:
+                condition = None
+
+            if condition:
+                sql = f"""
+                    SELECT client_table.clientName, case_table.case_name
+                    FROM client_case_table
+                    JOIN client_table ON client_case_table.client_id = client_table.clientID
+                    JOIN case_table ON client_case_table.case_id = case_table.case_id
+                    WHERE client_table.clientName LIKE %s OR case_table.case_name LIKE %s;
+                """
+                self.cursor.execute(sql, (f"%{search_value}%", f"%{search_value}%",))  # Correct parameter passing
+
+            else:
+                # If no search value is provided, select all rows from the "lawyer case" table and order by lawyer ID
+                sql = """SELECT client_table.clientName, case_table.case_name
+                    FROM client_case_table
+                    JOIN client_table ON client_case_table.client_id = client_table.clientID
+                    JOIN case_table ON client_case_table.case_id = case_table.case_id
                     """
                 # Execute the query without parameters
                 self.cursor.execute(sql)
