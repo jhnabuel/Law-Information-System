@@ -492,11 +492,12 @@ class MainWindow(QMainWindow):
                 return
             # Fetch data from the selected row
             old_lawyer_name = self.display_lawyer_case_info.item(selected_row, 0).text().strip()
-            case_name = self.display_lawyer_case_info.item(selected_row, 1).text().strip()
+            old_case_name = self.display_lawyer_case_info.item(selected_row, 1).text().strip()
             start_date = self.display_lawyer_case_info.item(selected_row, 2).text().strip()
             
              # Fetch the old lawyer ID
             old_lawyer_id = self.db.get_lawyer_id(old_lawyer_name)
+            old_case_id = self.db.get_case_id(old_case_name)
             if not old_lawyer_id:
                 QMessageBox.warning(self, "Error", "Failed to fetch the old lawyer ID.")
                 return
@@ -505,8 +506,9 @@ class MainWindow(QMainWindow):
 
             # Opens the edit case information page.
             self.edit_lawyer_case_dialog = EditLawyerCaseDialog(parent=self, connectDB=self.db)
-            self.edit_lawyer_case_dialog.set_lawyer_case_data(old_lawyer_name, case_name, start_date)
+            self.edit_lawyer_case_dialog.set_lawyer_case_data(old_lawyer_name, old_case_name, start_date)
             self.edit_lawyer_case_dialog.old_lawyer_id = old_lawyer_id
+            self.edit_lawyer_case_dialog.old_case_id = old_case_id
             self.edit_lawyer_case_dialog.accepted.connect(self.load_lawyer_case_info)
             self.edit_lawyer_case_dialog.exec_()
         except Exception as E:
@@ -621,18 +623,20 @@ class MainWindow(QMainWindow):
                 return
             # Fetch data from the selected row
             old_client_name = self.display_client_case_info.item(selected_row, 0).text().strip()
-            case_name = self.display_client_case_info.item(selected_row, 1).text().strip()
+            old_case_name = self.display_client_case_info.item(selected_row, 1).text().strip()
             
              # Fetch the old lawyer ID
             old_client_id = self.db.get_client_id(old_client_name)
+            old_case_name = self.db.get_case_id(old_case_name)
             if not old_client_id:
                 QMessageBox.warning(self, "Error", "Failed to fetch the old client ID.")
                 return
 
             # Opens the edit case information page.
             self.edit_client_case_dialog = EditClientCaseDialog(parent=self, connectDB=self.db)
-            self.edit_client_case_dialog.set_client_case_data(old_client_name, case_name)
+            self.edit_client_case_dialog.set_client_case_data(old_client_name, old_case_name)
             self.edit_client_case_dialog.old_client_id = old_client_id
+            self.edit_client_case_dialog.old_case_id = old_case_name
             self.edit_client_case_dialog.accepted.connect(self.load_client_case_info)
             self.edit_client_case_dialog.exec_()
         except Exception as E:
@@ -1287,7 +1291,7 @@ class EditLawyerCaseDialog(QtWidgets.QDialog):
         self.connection = connectDB
         self.populate_combo()
         self.old_lawyer_id = None  # Add this line to store the old lawyer ID
-
+        self.old_case_id = None
         self.ui.edit_info_cancel.clicked.connect(self.close)
         self.ui.edit_info.clicked.connect(self.edit_lawyer_case_data)
 
@@ -1325,7 +1329,7 @@ class EditLawyerCaseDialog(QtWidgets.QDialog):
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
             if reply == QMessageBox.Yes:
                 # Perform the edit operation
-                result = self.connection.edit_lawyer_case_info(self.old_lawyer_id, new_lawyer_id, case_id, startDate_str)
+                result = self.connection.edit_lawyer_case_info(self.old_lawyer_id, new_lawyer_id, case_id, self.old_case_id, startDate_str)
                 if result is None:
                     QMessageBox.information(self, "Update edit information success.",
                                             "Edit information has been updated in the system.")
@@ -1403,6 +1407,7 @@ class EditClientCaseDialog(QtWidgets.QDialog):
         self.connection = connectDB
         self.populate_combo()
         self.old_client_id = None  # Add this line to store the old lawyer ID
+        self.old_case_id = None
 
         self.ui.edit_info_cancel.clicked.connect(self.close)
         self.ui.edit_client_case.clicked.connect(self.edit_client_case_data)
@@ -1438,7 +1443,7 @@ class EditClientCaseDialog(QtWidgets.QDialog):
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
             if reply == QMessageBox.Yes:
                 # Perform the edit operation
-                result = self.connection.edit_client_case_info(self.old_client_id, new_client_id, case_id,)
+                result = self.connection.edit_client_case_info(self.old_client_id, new_client_id, case_id, self.old_case_id)
                 if result is None:
                     QMessageBox.information(self, "Update edit information success.",
                                             "Edit information has been updated in the system.")
